@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock Puzzle</title>
+    <style>
+        body{
+            padding: 0px;
+            margin: 0px;
+            background-color: black;
+        }
+        h1{
+            color: white;
+            text-align: center;
+            translate: -40px 0px;
+            /* background-color: blue; */
+        }
+        .container{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* padding-left: 50px; */
+            width: 800px;
+            height: 480px;
+            translate: 60px 0px;
+            /* background-color: yellow; */
+                        
+        }
+        
+        #clockgrid{
+            width: 700px;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: white;
+            margin-left: 55px;
+                        
+        }
+        .clock{
+            position: relative;
+            display: inline-block;
+            height: 100px;
+            width: 100px;
+            background-image: url("clockface.png");
+            border-radius: 50px;
+            cursor: none;
+            scale: 1;
+            margin: 10px;
+        }
+        .minutePin{
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            translate: 45px 45px;
+            rotate: 0deg;
+            border-radius: 5px;
+            
+
+        }
+        .minuteHand{
+            width: 5px;
+            height: 30px;
+            background-color: black;
+            position: absolute;
+            translate: 2.5px -25px;
+            border-radius: 2.5px;
+            
+        }
+        .hourPin{
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            translate: 45px 45px;
+            rotate: 30deg;
+            border-radius: 5px;
+            
+
+        }
+        .hourHand{
+            width: 5px;
+            height: 25px;
+            background-color: black;
+            position: absolute;
+            translate: 2.5px -20px;
+            border-radius: 2.5px;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Prison Schedule</h1>
+        <div id="clockGrid">
+            <!-- <div class="clock" id="exercise">
+                <div class="minutePin" id="exerciseMinutePin">
+                    <div class="minuteHand"></div>
+                </div>
+                <div class="hourPin" id="exerciseHourPin">
+                    <div class="hourHand"></div>
+                </div> -->
+                <!-- <div id="exerciseMinuteHand" class="minute12"></div> -->
+                <!-- <div class="minute12"></div>
+                <div class="minute3"></div>
+                <div class="minute6"></div>
+                <div class="minute9"></div> -->
+                <!-- <img src="./clockface.png" alt="Clockface"> -->
+                
+
+                <!-- </div> -->
+            </div>
+        </div>
+           </div>
+    <script>
+        const minutes = ['90deg','180deg','270deg','0deg']
+        const hours = ['30deg','60deg','90deg','120deg','150deg','180deg','210deg','240deg','270deg','300deg','330deg','0deg']
+        const clocks = ['Exercise','Breakfast','Snack','Yoga','Lunch','Supper',"Bomber's Anonymous",'Gym','Arts & Crafts','Therapy','Library','Plotting','Scheming','Visits','Pot luck','Hospital','Tai Chi','Dream Journaling']
+        let clockStatus = {'exercise':{'minute':0,'hour':1},'breakfast':1}
+
+        clocks.forEach(element => {
+            console.log(element)
+            let clock = document.createElement('div')
+            let grid = document.getElementById('clockGrid')
+            let minutePin = document.createElement('div')
+            let minuteHand = document.createElement('div')
+            let hourHand = document.createElement('div')
+            let hourPin = document.createElement('div')
+            clock.id = element
+            clock.className = "clock"
+            minutePin.className = "minutePin"
+            minuteHand.className = 'minuteHand'
+            minutePin.id = `${element}minutePin`
+            hourPin.className = 'hourPin'
+            hourHand.className = 'hourHand'
+            hourPin.id = `${element}hourPin`
+            console.log(clock)
+            grid.appendChild(clock)
+            clock.appendChild(minutePin)
+            minutePin.appendChild(minuteHand)
+            clock.appendChild(hourPin)
+            hourPin.appendChild(hourHand)
+            let minutePosition = 0
+            let hourPosition = 1
+            
+            clock.addEventListener('click', ()=>{
+                // let clockStatus = {'minute':0,'hour':1}
+                
+                console.log(minutePosition)
+                console.log(hourPosition)
+                minutePin.style.rotate = minutes[minutePosition]
+                if(minutePosition < 3){
+                    console.log('triggered')
+                    ++minutePosition
+                }
+                else{
+                    minutePosition = 0
+                    ++hourPosition
+                    if(hourPosition == 12){
+                        hourPosition = 0
+                    }
+                    hourPin.style.rotate = hours[hourPosition]
+                }
+            })
+        });
+        
+
+        // const exerciseClock = document.getElementById('exercise')
+        // // let exerciseClockMinute = exerciseClock.getElementsByClassName('minutehand')
+        // // console.log(exerciseClockMinute)
+        // exerciseClock.addEventListener('click', ()=>{
+        //     let minutePosition = clockStatus.exercise.minute
+        //     let hourPosition = clockStatus.exercise.hour
+        //     console.log(minutePosition)
+        //     console.log(hourPosition)
+        //     document.getElementById("exerciseMinutePin").style.rotate = minutes[minutePosition]
+        //     if(minutePosition < 3){
+        //         clockStatus['exercise']['minute'] = minutePosition + 1
+        //     }
+        //     else{
+        //         clockStatus['exercise']['minute'] = 0
+        //         clockStatus['exercise']['hour'] = hourPosition + 1
+        //         if(clockStatus.exercise.hour == 12){
+        //             clockStatus['exercise']['hour'] = 0
+        //         }
+        //         document.getElementById("exerciseHourPin").style.rotate = hours[hourPosition]
+                
+        //     }
+        //     console.log(clockStatus)
+            // if(clockStatus.exercise.minute === 0){
+            //     document.getElementById("exerciseMinutePin").style.rotate = "90deg"
+            //     clockStatus['exercise']['minute'] = 1
+            //     console.log(clockStatus)
+            // }
+            // else if(clockStatus.exercise.minute === 1){
+            //     document.getElementById("exerciseMinutePin").style.rotate = "180deg"
+            //     clockStatus['exercise']['minute'] = 2
+            // }
+            // else if(clockStatus.exercise.minute === 2){
+            //     document.getElementById("exerciseMinutePin").style.rotate = "270deg"
+            //     clockStatus['exercise']['minute'] =3
+            // }
+            // else if(clockStatus.exercise.minute === 3){
+            //     document.getElementById("exerciseMinutePin").style.rotate = "360deg"
+            //     clockStatus['exercise']['minute'] = 0
+            // }
+        // })
+
+        
+    </script>
+</body>
+</html>
