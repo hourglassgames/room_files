@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clock Puzzle</title>
     <style>
+        :root{
+            --display: inline-block;
+            --margin: 15px 10px;
+        }
         body{
             padding: 0px;
             margin: 0px;
@@ -15,10 +19,16 @@
             color: white;
             text-align: center;
             translate: -40px 0px;
-            /* background-color: blue; */
+            margin: 0px 0px;
+            display: inline;
+            /* background-color: green; */
+            position: relative;
+        }
+        h3{
+            text-align: center;
         }
         .container{
-            position: relative;
+            position: absolute;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,8 +36,8 @@
             /* padding-left: 50px; */
             width: 800px;
             height: 480px;
-            translate: 60px 0px;
-            /* background-color: yellow; */
+            translate: 60px -10px;
+            /* background-color: blue; */
                         
         }
         
@@ -36,10 +46,12 @@
             height: auto;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-items: center;
+            justify-content: center;
+            /* align-items: center; */
             background-color: white;
             margin-left: 55px;
+            /* translate: 0px -40px;
+            position: absolute; */
                         
         }
         .clock{
@@ -51,7 +63,8 @@
             border-radius: 50px;
             cursor: none;
             scale: 1;
-            margin: 10px;
+            margin: var(--margin);
+            text-align: center;
         }
         .minutePin{
             width: 10px;
@@ -93,11 +106,40 @@
             border-radius: 2.5px;
             
         }
+        .label{
+            color: white;
+            position: absolute;
+            display: var(--display);
+            /* margin: 0px auto; */
+            translate: 0px 82.5px;
+            font-size: 16px;
+            /* margin-left: 25px; */
+            /* text-align: center; */
+        }
+        #toggleButton{
+            translate: 200px -30px;
+            background-color: white;
+            margin-bottom: 3px;
+            border-width: 2px;
+            border-style: solid;
+            border-color: white;
+            border-radius: 5px;
+            display: inline;
+            position: relative;
+        }
+        .labeldiv{
+            width: 100px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="title">Prison Schedule</h1>
+        <button id="toggleButton"><b>HIDE LABELS</b></button>
+        
         <div id="clockGrid">
             <!-- <div class="clock" id="exercise">
                 <div class="minutePin" id="exerciseMinutePin">
@@ -117,11 +159,12 @@
                 <!-- </div> -->
             </div>
         </div>
+        
            </div>
     <script>
         const minutes = ['90deg','180deg','270deg','0deg']
         const hours = ['30deg','60deg','90deg','120deg','150deg','180deg','210deg','240deg','270deg','300deg','330deg','0deg']
-        const clocks = ['Exercise','Breakfast','Snack','Yoga','Lunch','Supper',"Bomber's Anonymous",'Gym','Arts & Crafts','Therapy','Library','Plotting','Scheming','Visits','Pot luck','Hospital','Tai Chi','Dream Journaling']
+        const clocks = ['Pickleball','Dance Lessons','Meditation','Sharing Circle',"Bomber's Anonymous",'Dream Journaling',"Knitting",'Band Practice','Arts & Crafts','Buffet Lunch','Gardening','Cell Cleaning','Thursday Lunch','Yoga','Cooking Lessons','Tuesday Lunch','Beachball Soccer','Visits']
         let clockStatus = {'exercise':{'minute':0,'hour':1},'breakfast':1}
 
         clocks.forEach(element => {
@@ -132,6 +175,8 @@
             let minuteHand = document.createElement('div')
             let hourHand = document.createElement('div')
             let hourPin = document.createElement('div')
+            let labeldiv = document.createElement('div')
+            let label = document.createElement('h3')
             clock.id = element
             clock.className = "clock"
             minutePin.className = "minutePin"
@@ -140,12 +185,17 @@
             hourPin.className = 'hourPin'
             hourHand.className = 'hourHand'
             hourPin.id = `${element}hourPin`
+            labeldiv.className = 'labeldiv'
+            label.innerHTML = element
+            label.className = "label"
             console.log(clock)
             grid.appendChild(clock)
             clock.appendChild(minutePin)
             minutePin.appendChild(minuteHand)
             clock.appendChild(hourPin)
             hourPin.appendChild(hourHand)
+            clock.appendChild(labeldiv)
+            labeldiv.appendChild(label)
             let minutePosition = 0
             let hourPosition = 1
             
@@ -170,7 +220,25 @@
             })
         });
         
-
+        let toggleStatus = true
+        let toggleButton = document.getElementById('toggleButton')
+        const labels = document.querySelectorAll('h3')
+        console.log(labels)
+        toggleButton.addEventListener('click', ()=> {
+            console.log('button clicked')
+            if (toggleStatus === true){
+                document.documentElement.style.setProperty('--display','none')
+                document.documentElement.style.setProperty('--margin','0px 10px')
+                toggleButton.innerHTML = '<b>SHOW LABELS</b>'
+                }
+            
+            if (toggleStatus === false){
+                document.documentElement.style.setProperty('--display','inline-block')
+                document.documentElement.style.setProperty('--margin','15px 10px')
+                toggleButton.innerHTML = "<b>HIDE LABELS</b>"
+             }
+            toggleStatus = !toggleStatus
+    })
         // const exerciseClock = document.getElementById('exercise')
         // // let exerciseClockMinute = exerciseClock.getElementsByClassName('minutehand')
         // // console.log(exerciseClockMinute)
