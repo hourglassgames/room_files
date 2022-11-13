@@ -28,7 +28,7 @@ function matchCards(img1, img2){
 		matched++;//count matches
 		if(matched == 10){
 		//HERE change to switch to next puzzle HERE
-		window.location.replace('../signs.html')
+		window.location.replace('../tools.html')
 			//  setTimeout(() => {
 			//  	return shuffleCard();
 			//  }, 800)
