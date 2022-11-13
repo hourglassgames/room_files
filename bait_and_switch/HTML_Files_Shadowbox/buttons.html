@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+
+        <style>
+            body{
+                text-align: center;
+		padding: 0px;
+		margin: 0px;
+            }
+            .container{
+                background-image: url("sudoku.jpg");
+                width: 800px;
+                height: 480px;
+                display: flex;
+                flex-direction: column;
+                background-color: rgb(1, 1, 143);
+                color: white;
+                align-items: center;
+                
+                
+                
+            }
+            .button_container{
+                flex: 1;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 10px;
+                row-gap: 5px;
+                
+            }
+            .button{
+                background-color: black;
+                color: white;
+                height: 75px;
+                min-width: 75px;
+                font-family: Impact;
+                font-size: 50px;
+                border-radius: 6px;
+                border-width: 3px;
+                box-shadow: 5px 6px 5px #000000;
+                transition: .15s;
+                opacity: .75;
+                
+            }
+            .button:active{
+                box-shadow: 3px 4px 6px #000000;
+            }
+            .display{
+                width: 35%;
+                display: flex;
+                align-items: center;
+                background-color: white;
+                color: black;
+                font-family: Impact;
+                font-size: 50px;
+                margin: 20px;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="container">
+            <div class="display" style="height: 50px"><p id="sample" style="font-size: 35px;"></p></div>
+            <div class="button_container">
+                <button class="button" onclick="addSubject('1')">1</button>
+                <button class="button" onclick="addSubject('2')">2</button>
+                <button class="button" onclick="addSubject('3')">3</button>
+                <button class="button" onclick="addSubject('4')">4</button>
+                <button class="button" onclick="addSubject('5')">5</button>
+                <button class="button" onclick="addSubject('6')">6</button>
+                <button class="button" onclick="addSubject('7')">7</button>
+                <button class="button" onclick="addSubject('8')">8</button>
+                <button class="button" onclick="addSubject('9')">9</button>
+                <button class="button"><span>&#10033;</span></button>
+                <button class="button" onclick="addSubject('0')">0</button>
+                <button class="button" onclick="clearSubjects()">C</button>
+            </div>
+        </div>
+
+
+        <script>
+            var subjects = []; document.getElementById("sample").innerHTML = subjects;
+            var code = '12345';
+            function addSubject(number_to_add) { 
+            //subjects.push(number_to_add);
+            subjects = subjects + number_to_add
+            document.getElementById("sample").innerHTML = subjects;
+            if(subjects === code) {
+                document.getElementById("sample").innerHTML = "You did it!";
+                window.location.replace('buttons2.html');
+            }
+            }
+            function clearSubjects(){
+                subjects = []
+                document.getElementById("sample").innerHTML = subjects;
+            }
+        </script>
+
+    </body>
+
+
+</html>
