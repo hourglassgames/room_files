@@ -154,6 +154,8 @@
             square.addEventListener('click', ()=>{
                 if (index < 9 || index == 10) {
                     activeEntry.innerText = activeEntry.innerText + keys[index]
+                    console.log(keys[index])
+                    console.log(activeEntry.innerText)
                 }
                 else if (index == 9) {
                     item1Entry.innerText = ''
