@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Puzzle</title>
+    <title>Blueprint Puzzle</title>
     <style>
         body{
             margin: 0px;
             padding: 0px;
-            
         }
         .container{
             width: 800px;
@@ -33,21 +32,9 @@
             height: auto;
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
         }
        
-        .item{
-            width: 150px;
-            height: 150px;
-            background-color: rgb(36, 36, 36);
-            margin: 10px;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
+        
         .key{
             width: 100px;
             height: 75px;
@@ -65,46 +52,73 @@
             margin: 0px;
         }
         h2{
-            color: rgb(75, 73, 73);
+            color: rgb(116, 107, 107);
         }
         .entry{
             width: 130px;
-            height: 40px;
+            height: 30px;
             font-size: 30px;
             color: rgb(50, 50, 50);
             background-color: rgb(212, 209, 209);
             border-radius: 3px;
             text-align: center;
         }
-        .selectedItem{
-            background-color: grey;
+        
+        /* #item1{
+            background-color: gray;
         }
+        #item2{
+            background-color: blue;
+        }
+        #item3{
+            background-color: green;
+        }
+        #item4{
+            background-color: yellow;
+        } */
+        .item{
+            width: 150px;
+            height: 150px;
+            /* background-color: rgb(50, 50, 50); */
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-width: 3px;
+            border-style: solid;
+            
+        }
+        /* .selectedItem{
+            background-color: grey;
+        } */
     </style>
 </head>
 <body>
-    <div class="header"><h1>Heavy Reading</h1></div>
+    <div class="header"><h1>Cell Mates for Life</h1></div>
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
-                <h2>Hammer</h2>
+                <!-- <h2>A3</h2> -->
                 <div class="entry" id="item1Entry">
 
                 </div>
             </div>
             <div class="item" id="item2">
-                <h2>Wrench</h2>
+                <!-- <h2>A6</h2> -->
                 <div class="entry" id="item2Entry">
 
                 </div>
             </div>
             <div class="item" id="item3">
-                <h2>Screwdriver</h2>
+                <!-- <h2>B1</h2> -->
                 <div class="entry" id="item3Entry">
 
                 </div>
             </div>
             <div class="item" id="item4">
-                <h2>Saw</h2>
+                <!-- <h2>B4</h2> -->
                 <div class="entry" id="item4Entry"></div>
             </div>
         </div>
@@ -113,11 +127,11 @@
     </div>
 
     <script>
-        let keys = ['💣','🧨','💥',"⏱️",'⏰','💩',"☠️",'😱','🔥','Reset All','🪦','Clear Item']
-        let item1Code = ['🧨💩💥']
-        let item2Code = ["☠️⏱️💩"]
-        let item3Code = ['💣🔥🪦']
-        let item4Code = ['⏰😱🪦']
+        let keys = ['1','2','3','4','5','6','7','8','9','Reset All','0','Clear Item']
+        let item1Code = [12345]
+        let item2Code = [12345]
+        let item3Code = [12345]
+        let item4Code = [12345]
         let keypadGrid = document.getElementById('keypadGrid')
         let item1 = document.getElementById('item1')
         let item2 = document.getElementById('item2')
@@ -130,13 +144,24 @@
         let activeItem = item1
         let activeEntry = item1Entry
         let items = [item1,item2,item3,item4]
+        let colors = ['pink','blue','green','yellow']
         let itemEntry = [item1Entry,item2Entry,item3Entry,item4Entry]
+
+        items[0].style = 'background-color: pink; border-color: red;'
+        items[1].style = 'background-color: blue;'
+        items[2].style = 'background-color: green;'
+        items[3].style = 'background-color: yellow;'
 
         items.map((item, index) => {
             item.addEventListener('click',()=>{
-                activeItem.className = 'item'
+                // activeItem.className = 'item'
                 activeItem = item
-                item.className = 'item selectedItem'
+                for (let i = 0; i < 4; i++){
+                    items[i].style = `background-color: ${colors[i]}; border-color: black;`
+                    console.log()
+                }
+                item.style = `background-color: ${colors[index]};border-color: red;`
+                // item.className = 'item selectedItem'
                 activeEntry = itemEntry[index]
             })
         })
@@ -153,11 +178,7 @@
             
             square.addEventListener('click', ()=>{
                 if (index < 9 || index == 10) {
-                    if(activeEntry.innerText.length < 6){
                     activeEntry.innerText = activeEntry.innerText + keys[index]
-                    console.log(keys[index])
-                    console.log(activeEntry.innerText)
-                    }
                 }
                 else if (index == 9) {
                     item1Entry.innerText = ''
@@ -191,7 +212,7 @@
                 ++counter
             }
             if (counter === 4) {
-                window.location.replace('blueprintdigits.html')
+                window.location.replace('safeatlast.html')
             }
             
             

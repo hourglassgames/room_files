@@ -103,7 +103,7 @@
 </head>
 <body>
     <div class="window">
-        <div class="puzzle_title"><h1>Bertha's Last Puzzle</h1></div>
+        <div class="puzzle_title"><h1>Bernadette's Last Puzzle</h1></div>
         <div class="puzzle_clue"><h3>MM/DD/YY</h3></div>
         <div class="button_grid">
             <button class="button" id="button1" onclick="buttonClick(0)">0</button>
@@ -125,7 +125,7 @@
 
     <script>
         let buttonValues = [0,0,0,0,0,0];
-        let code = [1,2,0,1,8,9];
+        let code = [0,9,0,2,1,5];
         
         function buttonClick(digit){
             if(digit == 0){
@@ -179,7 +179,7 @@
             document.getElementById("button6").innerHTML=buttonValues[5];
             console.log(buttonValues + ""=== code + "")
             if ((buttonValues + "") === (code + "")){
-                window.location.replace('under_cover.html')
+                window.location.replace('tags.html')
             }
         }
         

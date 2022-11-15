@@ -9,14 +9,221 @@
         body{
             margin: 0px;
             padding: 0px;
+            cursor: none;
+            /* background-color: black; */
+        }
+        .container{
+            width: 800px;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+        .signContainer{
+            width: 800px;
+            height: 400px;
+            /* background-color: green; */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .sign{
+            width: 150px;
+            height: 200px;
+            /* background-color: pink; */
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .picture{
+            width: 125px;
+            height: 100px;
+            /* background-color: black; */
+        }
+        .letterContainer{
+            width: 130px;
+            height: 60px;
+            /* background-color: purple; */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        .letter{
+            width: 60px;
+            height: 60px;
+            margin: 2px;
+            background-color: white;
+            border: 2px solid black;
+            box-sizing: margin-box;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .anagramLetter{
+            width: 100px;
+            height: 100px;
+            margin: 2px;
+            background-color: white;
+            border: 2px solid black;
+            box-sizing: margin-box;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #stage1Container{
+            display: flex;
+            
+        }
+        #stage2Container,#stage3Container{
+            /* background-color: yellow; */
+            visibility: hidden;
+        }
+        h2{
+            text-align: center;
+            color: white;
+        }
+        h1{
+            color: white;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Signs of Better Times Ahead</h1>
+        <div class="signContainer" id="stage1Container">
+            <div class="sign" id="sign1">
+                <div class="picture">
+                    <img src="./thefuture.png" alt="" class="picture">
+                </div>
+                    <div class="letterContainer">
+                         <div class="letter" id="letter1"></div>
+                         
+                    </div>
+            </div>
+            <div class="sign" id="sign2">
+                <div class="picture">
+                    <img src="./prettysimple.png" alt="" class="picture">
+                </div>
+                <div class="letterContainer">
+                    <div class="letter" id="letter21"></div>
+                    <div class="letter" id="letter22"></div>
+               </div>
+            </div>
+            <div class="sign" id="sign3">
+                <div class="picture">
+                <img src="./believeandsucceed.png" alt="" class="picture">
+                </div>
+                    <div class="letterContainer">
+                         <div class="letter" id="letter31"></div>
+                         <div class="letter" id="letter32"></div>
+                    </div>
+            </div>
+            <div class="sign" id="sign4">
+                <div class="picture">
+                    <img src="./safespace.png" alt="" class="picture">
+                </div>
+                <div class="letterContainer">
+                    <div class="letter" id="letter4"></div>
+               </div>
+            </div>
+            <div class="sign" id="sign5">
+                <div class="picture">
+                    <img src="./worksmarter.png" alt="" class="picture">
+                </div>
+                <div class="letterContainer">
+                    <div class="letter" id="letter5"></div>
+               </div>
+            </div>
+        </div>
+        <div class="signContainer" id="stage2Container">
+            <h2>Rearrange the Letters to Something Meaningful</h2>
+            <div class="letter">S</div>
+            <div class="letter">E</div>
+            <div class="letter">E</div>
+            <div class="letter">E</div>
+            <div class="letter">C</div>
+            <div class="letter">P</div>
+            <div class="letter">A</div>
+        </div>
+        <div class="signContainer" id="stage3Container">
+            <div class="anagramLetter" id="anagramLetter1"></div>
+            <div class="anagramLetter" id="anagramLetter2"></div>
+            <div class="anagramLetter" id="anagramLetter3"></div>
+            <div class="anagramLetter" id="anagramLetter4"></div>
+            <div class="anagramLetter" id="anagramLetter5"></div>
+            <div class="anagramLetter" id="anagramLetter6"></div>
+            <div class="anagramLetter" id="anagramLetter7"></div>
+        </div>
+    </div>
     <script>
-        function gotoTools(){
-            window.location.replace('tools.html')
-        }
+        let letterOptions = ['-','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        let anagramLetterOptions = ['-','A','C','E','P','S']
+        let letterStates = {letter1:0,letter21:0,letter22:0,letter31:0,letter32:0,letter4:0,letter5:0}
+        let letters = ['letter1','letter21','letter22','letter31','letter32','letter4','letter5']
+        let correctLetters = ['S','E','E','E','C','P','A']
+        let selectedLetters = []
+        let anagramCode = ['E','S','C','A','P','E','E']
+        let anagramSelectedLetters = []
+        let anagramLetters = ['anagramLetter1','anagramLetter2','anagramLetter3','anagramLetter4','anagramLetter5','anagramLetter6','anagramLetter7']
+        let anagramLetterStates = {anagramLetter1:0,anagramLetter2:0,anagramLetter3:0,anagramLetter4:0,anagramLetter5:0,anagramLetter6:0,anagramLetter7:0}
+        letters.forEach((letter,index) => {
+            let lettername = document.getElementById(letters[index])
+            console.log(letter)
+            lettername.innerText = letterOptions[letterStates[letters[index]]]
+            console.log(letter.innerText)
+
+            lettername.addEventListener('click',()=>{
+                console.log(`${letters[index]} clicked`)
+                letterStates[letters[index]] += 1
+                if (letterStates[letters[index]] == 27){
+                    letterStates[letters[index]] = 0
+                }
+                lettername.innerText = letterOptions[letterStates[letters[index]]]
+                selectedLetters = [letterOptions[letterStates['letter1']],letterOptions[letterStates['letter21']],letterOptions[letterStates['letter22']],letterOptions[letterStates['letter31']],letterOptions[letterStates['letter32']],letterOptions[letterStates['letter4']],letterOptions[letterStates['letter5']]]
+                console.log(selectedLetters)
+                if (correctLetters + '' == selectedLetters + ''){
+                    console.log('Matched!!!')
+                    document.getElementById('stage1Container').style.display = 'none'
+                    document.getElementById('stage2Container').style = 'visibility: visible;'
+                    document.getElementById('stage3Container').style = 'visibility: visible;'
+                }
+            })
+        });
+        anagramLetters.forEach((anagramLetter, index) => {
+            let lettername = document.getElementById(anagramLetters[index])
+            console.log(anagramLetter)
+            lettername.innerText = anagramLetterOptions[anagramLetterStates[anagramLetters[index]]]
+            console.log(anagramLetter.innerText)
+
+            lettername.addEventListener('click',()=>{
+                console.log(`${anagramLetters[index]} clicked`)
+                anagramLetterStates[anagramLetters[index]] += 1
+                if (anagramLetterStates[anagramLetters[index]] == 6){
+                    anagramLetterStates[anagramLetters[index]] = 0
+                }
+                lettername.innerText = anagramLetterOptions[anagramLetterStates[anagramLetters[index]]]
+                anagramSelectedLetters = [anagramLetterOptions[anagramLetterStates['anagramLetter1']],anagramLetterOptions[anagramLetterStates['anagramLetter2']],anagramLetterOptions[anagramLetterStates['anagramLetter3']],anagramLetterOptions[anagramLetterStates['anagramLetter4']],anagramLetterOptions[anagramLetterStates['anagramLetter5']],anagramLetterOptions[anagramLetterStates['anagramLetter6']],anagramLetterOptions[anagramLetterStates['anagramLetter7']]]
+                console.log(anagramSelectedLetters)
+                if (anagramCode + '' == anagramSelectedLetters + ''){
+                    console.log('Matched!!!')
+                    window.location.replace('tools.html')
+                }
+            })
+        });
+        
     </script>
 </body>
 </html>
