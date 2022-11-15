@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+            background-color: black;
+        }
+        .container{
+            width: 800px;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .launcher{
+            width: 400px;
+            height: 200px;
+            background-color: darkblue;
+            color: white;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+        h1{
+            font-size: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="launcher" id="bait"><h1>Bait & Switch</h1></div>
+        <div class="launcher" id="revenge"><h1>Bomber's Revenge</h1></div>
+    </div>
+    <script>
+        let baitButton = document.getElementById('bait')
+        let revengeButton = document.getElementById('revenge')
+
+        baitButton.addEventListener('click', ()=>{
+            window.location.replace('../bait_and_switch/HTML_Files_Shadowbox/drawing_digits_with_enter.html')
+        })
+        revengeButton.addEventListener('click',()=>{
+            window.location.replace('./minesweeper-master/index.html')
+        }) 
+    </script>
+</body>
+</html>
