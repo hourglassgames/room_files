@@ -128,10 +128,10 @@
 
     <script>
         let keys = ['1','2','3','4','5','6','7','8','9','Reset All','0','Clear Item']
-        let item1Code = [12345]
-        let item2Code = [12345]
-        let item3Code = [12345]
-        let item4Code = [12345]
+        let item1Code = [189]
+        let item2Code = [574]
+        let item3Code = [1144]
+        let item4Code = [897]
         let keypadGrid = document.getElementById('keypadGrid')
         let item1 = document.getElementById('item1')
         let item2 = document.getElementById('item2')
@@ -144,12 +144,12 @@
         let activeItem = item1
         let activeEntry = item1Entry
         let items = [item1,item2,item3,item4]
-        let colors = ['pink','blue','green','yellow']
+        let colors = ['blue','green','red','yellow']
         let itemEntry = [item1Entry,item2Entry,item3Entry,item4Entry]
 
-        items[0].style = 'background-color: pink; border-color: red;'
-        items[1].style = 'background-color: blue;'
-        items[2].style = 'background-color: green;'
+        items[0].style = 'background-color: blue; border-color: red;'
+        items[1].style = 'background-color: green;'
+        items[2].style = 'background-color: red;'
         items[3].style = 'background-color: yellow;'
 
         items.map((item, index) => {
