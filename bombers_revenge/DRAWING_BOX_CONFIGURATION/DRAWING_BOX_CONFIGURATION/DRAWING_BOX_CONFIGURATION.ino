@@ -7,6 +7,14 @@
 
 int panelPin = 2;
 
+#include "LedController.hpp"
+#define DIN 23
+#define CS 5
+#define CLK 18
+LedController<4,1> lc;
+unsigned long delaytime=1000;
+
+
 // Replace the next variables with your SSID/Password combination
 const char* ssid = "HGG Private";
 const char* password = "HGGamespass10!";
@@ -18,12 +26,12 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 char msg[50];
 int value = 0;
-const char* device = "Bait and Switch Closet";//what you want to call this device
+const char* device = "Bait and Switch Drawing Box";//what you want to call this device
 String device_name = device;
 String msg_string;
 
 void subscriptions(){ //add all desired topics to receive and post to in this function
-  client.subscribe("Closet");
+  client.subscribe("Drawing Box");
   client.subscribe("device_test");
 }
 
@@ -47,6 +55,10 @@ void setup_wifi() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+  lc=LedController<4,1>(DIN,CLK,CS);
+  lc.setIntensity(15); /* Set the brightness to a medium values */
+  lc.clearMatrix(); 
 }
 
 
@@ -68,16 +80,51 @@ void callback(char* topic, byte* message, unsigned int length) {
    *  Send messages out with:
    *    client.publish("topic", "message");
    */
-  if (String(topic) == "Closet") {
-    Serial.print("Closet Received");
+  if (String(topic) == "Drawing Box") {
+    Serial.print("Drawing Box Received");
     if(messageTemp == "open"){
       //Serial.println("on");
       digitalWrite(panelPin, LOW);
       delay(500);
       digitalWrite(panelPin, HIGH);
       client.publish("Closet", "Closet Open");
+    }}
+   if (String(topic) == "Cell Lights") {
+    Serial.print("Drawing Box Received");
+    if(messageTemp == "on"){
+      lc.setDigit(0,6,7,false);
+      lc.setDigit(0,5,2,false);
+      lc.setDigit(0,4,9,false);
+      lc.setDigit(0,3,9,false);
+      lc.setDigit(0,2,5,false);
+      lc.setDigit(0,1,3,false);
+    
+      lc.setDigit(1,6,7,false);
+      lc.setDigit(1,5,9,false);
+      lc.setDigit(1,4,0,false);
+      lc.setDigit(1,3,5,false);
+      lc.setDigit(1,2,7,false);
+      lc.setDigit(1,1,7,false);
+    
+      lc.setDigit(2,6,7,false);
+      lc.setDigit(2,5,8,false);
+      lc.setDigit(2,4,6,false);
+      lc.setDigit(2,3,5,false);
+      lc.setDigit(2,2,7,false);
+      lc.setDigit(2,1,3,false);
+    
+      lc.setDigit(3,6,7,false);
+      lc.setDigit(3,5,6,false);
+      lc.setDigit(3,4,8,false);
+      lc.setDigit(3,3,4,false);
+      lc.setDigit(3,2,2,false);
+      lc.setDigit(3,1,2,false);
+      //client.publish("Closet", "Closet Open");
     }
-        
+    if(messageTemp == "off"){
+      lc.clearMatrix();
+      //client.publish("Closet", "Closet Open");
+    }
   }
   if (String(topic) == "device_test"){
     Serial.println("device_test received");
