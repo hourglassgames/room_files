@@ -33,6 +33,7 @@ String msg_string;
 void subscriptions(){ //add all desired topics to receive and post to in this function
   client.subscribe("Drawing Box");
   client.subscribe("device_test");
+  client.subscribe("Cell Lights");
 }
 
 void setup_wifi() {
