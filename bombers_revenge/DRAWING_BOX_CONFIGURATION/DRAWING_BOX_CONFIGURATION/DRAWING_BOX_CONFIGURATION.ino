@@ -88,7 +88,10 @@ void callback(char* topic, byte* message, unsigned int length) {
       digitalWrite(panelPin, LOW);
       delay(500);
       digitalWrite(panelPin, HIGH);
-      client.publish("Closet", "Closet Open");
+      client.publish("Drawing Box", "Drawing Box Opened");
+      delay(100);
+      ESP.restart();
+      
     }}
    if (String(topic) == "Cell Lights") {
     Serial.print("Drawing Box Received");
@@ -125,6 +128,9 @@ void callback(char* topic, byte* message, unsigned int length) {
     if(messageTemp == "off"){
       lc.clearMatrix();
       //client.publish("Closet", "Closet Open");
+    }
+    if(messageTemp == "reboot"){
+      ESP.restart();
     }
   }
   if (String(topic) == "device_test"){

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crossword Puzzle</title>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            width: 800px;
+            height: 400px;
+            background-color: green;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header{
+            width: 800px;
+            height: 80px;
+            background-color: green;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .grid{
+            width: 380px;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+       
+        
+        .key{
+            width: 100px;
+            height: 75px;
+            background-color: red;
+            color: #555555;
+            margin: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        h1{
+            text-align: center;
+            margin: 0px;
+        }
+        h2{
+            color: #555555;
+        }
+        .entry{
+            width: 130px;
+            height: 30px;
+            font-size: 30px;
+            color: rgb(50, 50, 50);
+            background-color: rgb(212, 209, 209);
+            border-radius: 3px;
+            text-align: center;
+        }
+        
+        /* #item1{
+            background-color: gray;
+        }
+        #item2{
+            background-color: blue;
+        }
+        #item3{
+            background-color: green;
+        }
+        #item4{
+            background-color: yellow;
+        } */
+        .item{
+            width: 150px;
+            height: 150px;
+            /* background-color: rgb(50, 50, 50); */
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            border-width: 3px;
+            border-style: solid;
+            
+        }
+        /* .selectedItem{
+            background-color: grey;
+        } */
+    </style>
+</head>
+<body>
+    <div class="header"><h1>Crosswords <i>Number Among</i> My Favorite Puzzles</h1></div>
+    <div class="container">
+        <div class="grid" id="itemGrid">
+            <div class="item selectedItem" id="item1">
+                <h2>Eggnog</h2>
+                <div class="entry" id="item1Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item2">
+                <h2>Cranberry Sauce</h2>
+                <div class="entry" id="item2Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item3">
+                <h2>Presents</h2>
+                <div class="entry" id="item3Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item4">
+                <h2>Card</h2>
+                <div class="entry" id="item4Entry"></div>
+            </div>
+        </div>
+        <div class="grid" id="keypadGrid">
+        </div>
+    </div>
+
+    <script>
+        let keys = ['1','2','3','4','5','6','7','8','9','Reset All','0','Clear Item']
+        let item1Code = [1]
+        let item2Code = [2]
+        let item3Code = [3]
+        let item4Code = [4]
+        let keypadGrid = document.getElementById('keypadGrid')
+        let item1 = document.getElementById('item1')
+        let item2 = document.getElementById('item2')
+        let item3 = document.getElementById('item3')
+        let item4 = document.getElementById('item4')
+        let item1Entry = document.getElementById('item1Entry')
+        let item2Entry = document.getElementById('item2Entry')
+        let item3Entry = document.getElementById('item3Entry')
+        let item4Entry = document.getElementById('item4Entry')
+        let activeItem = item1
+        let activeEntry = item1Entry
+        let items = [item1,item2,item3,item4]
+        let colors = ['pink','blue','white','red']
+        let itemEntry = [item1Entry,item2Entry,item3Entry,item4Entry]
+
+        items[0].style = 'background-color: pink; border-color: red;'
+        items[1].style = 'background-color: blue;'
+        items[2].style = 'background-color: white;'
+        items[3].style = 'background-color: red;'
+
+        items.map((item, index) => {
+            item.addEventListener('click',()=>{
+                // activeItem.className = 'item'
+                activeItem = item
+                for (let i = 0; i < 4; i++){
+                    items[i].style = `background-color: ${colors[i]}; border-color: black;`
+                    console.log()
+                }
+                item.style = `background-color: ${colors[index]};border-color: red;`
+                // item.className = 'item selectedItem'
+                activeEntry = itemEntry[index]
+            })
+        })
+
+        keys.map((key, index) => {
+            let square = document.createElement('div')
+            let label = document.createElement('h1')
+            square.className = 'key'
+            square.id = 'keypad' + index
+            console.log(square)
+            keypadGrid.appendChild(square)
+            label.innerText = keys[index]
+            square.appendChild(label)
+            
+            square.addEventListener('click', ()=>{
+                if (index < 9 || index == 10) {
+                    activeEntry.innerText = activeEntry.innerText + keys[index]
+                }
+                else if (index == 9) {
+                    item1Entry.innerText = ''
+                    item2Entry.innerText = ''
+                    item3Entry.innerText = ''
+                    item4Entry.innerText = ''
+                }
+                else if (index == 11) {
+                    activeEntry.innerText = ''
+                } 
+                checkCodes()
+            })
+        });
+        
+        function checkCodes(){
+            let counter = 0
+            if (item1Code + '' == item1Entry.innerText + ''){
+                console.log('Item 1 Matches')
+                ++counter
+            }
+            if (item2Code + '' == item2Entry.innerText + ''){
+                console.log('Item 2 Matches')
+                ++counter
+            }
+            if (item3Code + '' == item3Entry.innerText + ''){
+                console.log('Item 3 Matches')
+                ++counter
+            }
+            if (item4Code + '' == item4Entry.innerText + ''){
+                console.log('Item 4 Matches')
+                ++counter
+            }
+            if (counter === 4) {
+                window.location.replace('crosswordSuccess.html')
+            }
+            
+            
+        }
+
+
+    </script>
+</body>
+</html>

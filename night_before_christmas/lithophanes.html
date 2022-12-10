@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool Puzzle</title>
+    <style>
+        body{
+            margin: 0px;
+            padding: 0px;
+            
+        }
+        .container{
+            width: 800px;
+            height: 400px;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header{
+            width: 800px;
+            height: 80px;
+            background-color: black;
+            color: rgb(212, 209, 209);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .grid{
+            width: 380px;
+            height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+       
+        .item{
+            width: 150px;
+            height: 150px;
+            background-color: rgb(36, 36, 36);
+            margin: 10px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .key{
+            width: 100px;
+            height: 75px;
+            background-color: rgb(50, 50, 50);
+            color: rgb(212, 209, 209);
+            margin: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+        h1{
+            text-align: center;
+            margin: 0px;
+        }
+        h2{
+            color: rgb(75, 73, 73);
+        }
+        .entry{
+            width: 130px;
+            height: 40px;
+            font-size: 30px;
+            color: rgb(50, 50, 50);
+            background-color: rgb(212, 209, 209);
+            border-radius: 3px;
+            text-align: center;
+        }
+        .selectedItem{
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"><h1>Heavy Reading</h1></div>
+    <div class="container">
+        <div class="grid" id="itemGrid">
+            <div class="item selectedItem" id="item1">
+                <h2>Granny</h2>
+                <div class="entry" id="item1Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item2">
+                <h2>Gifts</h2>
+                <div class="entry" id="item2Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item3">
+                <h2>Cookies</h2>
+                <div class="entry" id="item3Entry">
+
+                </div>
+            </div>
+            <div class="item" id="item4">
+                <h2>Lights</h2>
+                <div class="entry" id="item4Entry"></div>
+            </div>
+        </div>
+        <div class="grid" id="keypadGrid">
+        </div>
+    </div>
+
+    <script>
+        let keys = ['⛄','🍬','🎄',"🛷",'🥛','🍪',"🎅",'🦌','❄️','Reset All','🎁','Clear Item']
+        let item1Code = ['🍬🛷⛄']
+        let item2Code = ["🎅🥛🍪"]
+        let item3Code = ['🎄❄️⛄']
+        let item4Code = ['🍬🦌🎁']
+        let keypadGrid = document.getElementById('keypadGrid')
+        let item1 = document.getElementById('item1')
+        let item2 = document.getElementById('item2')
+        let item3 = document.getElementById('item3')
+        let item4 = document.getElementById('item4')
+        let item1Entry = document.getElementById('item1Entry')
+        let item2Entry = document.getElementById('item2Entry')
+        let item3Entry = document.getElementById('item3Entry')
+        let item4Entry = document.getElementById('item4Entry')
+        let activeItem = item1
+        let activeEntry = item1Entry
+        let items = [item1,item2,item3,item4]
+        let itemEntry = [item1Entry,item2Entry,item3Entry,item4Entry]
+
+        items.map((item, index) => {
+            item.addEventListener('click',()=>{
+                activeItem.className = 'item'
+                activeItem = item
+                item.className = 'item selectedItem'
+                activeEntry = itemEntry[index]
+            })
+        })
+
+        keys.map((key, index) => {
+            let square = document.createElement('div')
+            let label = document.createElement('h1')
+            square.className = 'key'
+            square.id = 'keypad' + index
+            console.log(square)
+            keypadGrid.appendChild(square)
+            label.innerText = keys[index]
+            square.appendChild(label)
+            
+            square.addEventListener('click', ()=>{
+                if (index < 9 || index == 10) {
+                    if(activeEntry.innerText.length < 6){
+                    activeEntry.innerText = activeEntry.innerText + keys[index]
+                    console.log(keys[index])
+                    console.log(activeEntry.innerText)
+                    }
+                }
+                else if (index == 9) {
+                    item1Entry.innerText = ''
+                    item2Entry.innerText = ''
+                    item3Entry.innerText = ''
+                    item4Entry.innerText = ''
+                }
+                else if (index == 11) {
+                    activeEntry.innerText = ''
+                } 
+                checkCodes()
+            })
+        });
+        
+        function checkCodes(){
+            let counter = 0
+            if (item1Code + '' == item1Entry.innerText + ''){
+                console.log('Item 1 Matches')
+                ++counter
+            }
+            if (item2Code + '' == item2Entry.innerText + ''){
+                console.log('Item 2 Matches')
+                ++counter
+            }
+            if (item3Code + '' == item3Entry.innerText + ''){
+                console.log('Item 3 Matches')
+                ++counter
+            }
+            if (item4Code + '' == item4Entry.innerText + ''){
+                console.log('Item 4 Matches')
+                ++counter
+            }
+            if (counter === 4) {
+                window.location.replace('lithophanesSuccess.html')
+            }
+            
+            
+        }
+
+
+    </script>
+</body>
+</html>
