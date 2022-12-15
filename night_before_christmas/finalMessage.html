@@ -4,9 +4,101 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Final Message</title>
+    <style>
+        body{
+            width: 1280px;
+            height: 800px;
+            background-color: red;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1{
+            text-align: center;
+            color: white;
+        }
+        .container{
+            width: 1200px;
+            height: 700px;
+            /* background-color: yellow; */
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .letter{
+            width: 160px;
+            height: 170px;
+            /* background-color: white; */
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .label{
+            color: white;
+        }
+        h2{
+            text-align: center;
+            font-size: 40px;
+            margin: 10px;
+        }
+        .code{
+            font-size: 40px;
+            margin: 0px;
+            padding: 20px;
+            background-color: green;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>You did it!</h1>
+    <h1>My Gift to You ~ When you know it, yell it out!</h1>
+    <div class="container" id="container">
+        
+
+    </div>
+    <script>
+        const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        let rotatorState = ['A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A','A']
+        let decoded = {'0': 'Y','1': 'O','2':'U','3':'A','4':'R','5':'E','6':'A','7':'L','8':'L','9':'I','10':'N','11':'T','12':'H','13':'E','14':'W','15':'I','16':'L','17':'L'}
+        let encoded = {'0': 'S','1': 'E','2':'W','3':'F','4':'B','5':'V','6':'F','7':'D','8':'D','9':'J','10':'H','11':'U','12':'N','13':'V','14':'P','15':'J','16':'D','17':'D'}
+        
+        for (let [key, value] of Object.entries(encoded)) {
+            let letter = document.createElement('div')
+            letter.className = 'letter'
+            letter.id = key
+            console.log(letter.id)
+            let container = document.getElementById('container')
+            container.appendChild(letter)
+            let label = document.createElement('h2')
+            label.id = `L${key}`
+            label.className = 'label'
+            label.innerHTML = value
+            letter.appendChild(label)
+            let rotator = document.createElement('div')
+            rotator.className = 'code'
+            rotator.id = `C${key}`
+            rotator.innerHTML = `<h2>${rotatorState[parseFloat(key)]}</h2>`
+            letter.appendChild(rotator)
+            rotator.addEventListener('click', ()=>{
+                if (rotator.innerHTML == '<h2>Z</h2>'){
+                    rotator.innerHTML = '<h2>A</h2>'
+                }
+                else {
+                    let index = letters.findIndex(value => value == rotator.innerText)
+                    rotator.innerHTML = `<h2>${letters[index + 1]}</h2>`
+                }
+
+            })
+        }
+        
+    </script>
 </body>
 </html>
