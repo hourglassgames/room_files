@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=My Python Script
+Exec=python /Documents/room_files/room_one_listener.py
+Terminal=true
+Type=Application
