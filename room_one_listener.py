@@ -23,7 +23,7 @@ def mqtt_listener():
             if message == 'poweroff':
                 print(message)
                 print('poweroff')
-                os.system('sudo pweroff')
+                os.system('sudo poweroff')
        
     client = mqtt.Client()
     client.on_connect = on_connect
