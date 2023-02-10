@@ -1,3 +1,6 @@
+import os
+from time import sleep
+sleep(10)
 
 def mqtt_listener():
     
