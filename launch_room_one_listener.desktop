@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=My Python Script
+Name=Launch Room One Listener
 Exec=python /home/pi/Documents/room_files/room_one_listener.py
 Terminal=true
 Type=Application
