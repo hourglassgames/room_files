@@ -24,7 +24,8 @@
             background-color: green;
             color: white;
             display: flex;
-            align-items: flex-end;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
         }
         .grid{
@@ -49,7 +50,8 @@
         }
         h1{
             text-align: center;
-            margin: 0px;
+            margin: 5px;
+            display: block;
         }
         h2{
             color: #555555;
@@ -101,7 +103,8 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>Colour by Number...and light</h1></div>
+    <div class="header"><h1>Colour by Number...and light</h1>
+    <h1><i>Enter every revealed number on each page.</i> </h1></div>
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
