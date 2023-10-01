@@ -9,23 +9,27 @@
         body{
             margin: 0px;
             padding: 0px;
+            background: url("./crosswordBackground.jpg");
+            background-repeat: no-repeat;
+            background-size: 1280px 800px;
         }
         .container{
             width: 1280px;
-            height: 650px;
-            background-color: green;
+            height: 600px;
+            /* background-color: green; */
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .header{
             width: 1280px;
-            height: 150px;
-            background-color: green;
+            height: 200px;
+            /* background-color: green; */
             color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
+            /* justify-content: space-around; */
+            flex-direction: column;
         }
         .grid{
             width: 500px;
@@ -39,21 +43,26 @@
             width: 125px;
             height: 100px;
             background-color: red;
-            color: #555555;
+            color: white;
             margin: 5px;
             border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: .9;
 
         }
         h1{
             text-align: center;
             margin: 0px;
+            margin-top: 40px;
+            font-size: 50px;
         }
         h2{
-            color: #555555;
+            color: white;
             text-align: center;
+            font-size: 35px;
+            text-shadow: 3px 3px 3px black;
         }
         .entry{
             width: 130px;
@@ -89,7 +98,7 @@
             flex-direction: column;
             border-width: 3px;
             border-style: solid;
-            
+            opacity: .9;
         }
         /* .selectedItem{
             background-color: grey;
@@ -97,7 +106,9 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>Crosswords <i>Number Among</i> My Favorite Puzzles</h1></div>
+    <div class="header"><h1>Crosswords <i>Number Among</i> My Favorite Puzzles</h1>
+    <h2>Include all numbers that each word passes through (ex: 2728)</h2></div>
+
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
@@ -169,7 +180,7 @@
 
         keys.map((key, index) => {
             let square = document.createElement('div')
-            let label = document.createElement('h1')
+            let label = document.createElement('h2')
             square.className = 'key'
             square.id = 'keypad' + index
             console.log(square)

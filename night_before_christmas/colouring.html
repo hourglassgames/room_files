@@ -9,19 +9,22 @@
         body{
             margin: 0px;
             padding: 0px;
+            background: url("./colouringBackground.jpg");
+            background-repeat: no-repeat;
+            background-size: 1280px 800px;
         }
         .container{
             width: 1280px;
-            height: 650px;
-            background-color: green;
+            height: 550px;
+            /* background-color: green; */
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .header{
             width: 1280px;
-            height: 150px;
-            background-color: green;
+            height: 250px;
+            /* background-color: green; */
             color: white;
             display: flex;
             flex-direction: column;
@@ -46,16 +49,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: .9;
 
         }
         h1{
             text-align: center;
             margin: 5px;
             display: block;
+            font-size: 50px;
+            text-shadow: 3px 3px 3px black;
         }
         h2{
-            color: #555555;
+            color: white;
             text-align: center;
+            font-size: 35px;
+            text-shadow: 3px 3px 3px black;
         }
         .entry{
             width: 130px;
@@ -91,6 +99,7 @@
             flex-direction: column;
             border-width: 3px;
             border-style: solid;
+            opacity: .9;
             
         }
         img{
@@ -103,8 +112,8 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>Colour by Number...and light</h1>
-    <h1><i>Enter every revealed number on each page.</i> </h1></div>
+    <div class="header"><h1>Colour by Number...and Light</h1>
+    <h2><i>Enter every revealed number on each page.</i> </h2></div>
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
@@ -176,7 +185,7 @@
 
         keys.map((key, index) => {
             let square = document.createElement('div')
-            let label = document.createElement('h1')
+            let label = document.createElement('h2')
             square.className = 'key'
             square.id = 'keypad' + index
             console.log(square)

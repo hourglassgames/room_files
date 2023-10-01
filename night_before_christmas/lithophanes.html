@@ -64,14 +64,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: .9;
 
         }
         h1{
             text-align: center;
             margin: 0px;
+            font-size: 50px;
+            text-shadow: 3px 3px 3px black;
         }
         h2{
             color: white;
+            font-size: 35px;
+            text-shadow: 3px 3px 3px black;
+            text-align: center;
         }
         .entry{
             width: 130px;
@@ -81,6 +87,7 @@
             background-color: rgb(232, 229, 229);
             border-radius: 3px;
             text-align: center;
+            opacity: .9;
         }
         .selectedItem{
             background-color: lightgreen;
@@ -149,7 +156,7 @@
 
         keys.map((key, index) => {
             let square = document.createElement('div')
-            let label = document.createElement('h1')
+            let label = document.createElement('h2')
             square.className = 'key'
             square.id = 'keypad' + index
             console.log(square)

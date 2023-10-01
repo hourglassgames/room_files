@@ -9,11 +9,14 @@
         body{
             margin: 0px;
             padding: 0px;
+            background: url("./pizzaBackground.jpg");
+            background-repeat: no-repeat;
+            background-size: 1280px 800px;
         }
         .container{
             width: 1280px;
             height: 650px;
-            background-color: green;
+            /* background-color: green; */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -21,7 +24,7 @@
         .header{
             width: 1280px;
             height: 150px;
-            background-color: green;
+            /* background-color: green; */
             color: white;
             display: flex;
             align-items: flex-end;
@@ -45,15 +48,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: .9;
 
         }
         h1{
             text-align: center;
             margin: 0px;
+            font-size: 50px;
+            text-shadow: 3px 3px 3px black;
         }
         h2{
-            color: #555555;
+            color: white;
             text-align: center;
+            font-size: 35px;
+            text-shadow: 3px 3px 3px black;
         }
         .entry{
             width: 130px;
@@ -89,6 +97,7 @@
             flex-direction: column;
             border-width: 3px;
             border-style: solid;
+            opacity: .9;
             
         }
         /* .selectedItem{
@@ -169,7 +178,7 @@
 
         keys.map((key, index) => {
             let square = document.createElement('div')
-            let label = document.createElement('h1')
+            let label = document.createElement('h2')
             square.className = 'key'
             square.id = 'keypad' + index
             console.log(square)
