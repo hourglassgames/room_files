@@ -28,7 +28,7 @@ void setup_wifi() {
   WiFi.begin(ssid, password);
   int attempts = 0;
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    delay(3500);
     attempts++;
     if(attempts > 3){
       ESP.restart();}
