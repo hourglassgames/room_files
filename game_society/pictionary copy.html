@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bomber's Headlines</title>
+    <title>Pictionary</title>
     <style>
         body{
             margin: 0px;
@@ -60,14 +60,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>My Tour of Alberta</h1>
+        <h1>Picture This</h1>
         <div class="grid" id="grid">
 
         </div>
     </div>
     <script>
-        let cities = ['Edmonton', 'Calgary', 'Okotoks', 'Drayton Valley','Stony Plain', 'Spruce Grove', 'Sherwood Park','Red Deer','Peace River','Fort McMurray','Medicine Hat','Lloydminster','Cochrane','Grande Cache','Lethbridge','Rocky Mountain House', 'Pincher Creek','Jasper','Banff','Lake Louise']
-        let code = ['Edmonton','Lethbridge','Grande Cache','Peace River']
+        let cities = ['Cat', 'Dog', 'Tree', 'Bicycle','Frog', 'Sunflower', 'Fox','Truck','Wheel','Squirrel','Castle','House','Horse','Rabbit','Cookie','Donkey', 'Mountain','Cliff','Bank','Coin']
+        let code = ['Cat','Sunflower','Truck','House']
         let attempt = []
         let grid = document.getElementById('grid')
         console.log(cities.length)
@@ -94,12 +94,12 @@
                         attempt.sort()
                         code.sort()
                         if (attempt + '' == code + '') {
-                            window.location.replace('blueprints.html')
+                            window.location.replace('clue.html')
                         }
                         else{
                             // console.log(attempt)
                             // console.log(code)
-                            window.location.replace('headlines.html')
+                            window.location.replace('pictionary.html')
 
                         }
                     }
@@ -108,9 +108,7 @@
                 }
                 else {
                     tile.className = 'tile'
-                    attempt = attempt.filter(function(item) {
-                        return item !== city
-                    })
+                    
                     
 
                 } 

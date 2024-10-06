@@ -66,20 +66,20 @@
         </div>
     </div>
     <script>
-        let cities = ['Cat', 'Dog', 'Tree', 'Bicycle','Frog', 'Sunflower', 'Fox','Truck','Wheel','Squirrel','Castle','House','Horse','Rabbit','Cookie','Donkey', 'Mountain','Cliff','Bank','Coin']
-        let code = ['Cat','Sunflower','Truck','House']
+        let pictures = ['Cat', 'Dog', 'Tree', 'Bicycle','Frog', 'Sunflower','Fire Truck', 'Fox','Wheel','Squirrel','Castle','House','Rabbit','Horse','Bat','Donkey', 'Mountain','Bee','Bank','Spider']
+        let code = ['Bat','Bee','Horse','Fire Truck','Tree','Spider']
         let attempt = []
         let grid = document.getElementById('grid')
-        console.log(cities.length)
+        console.log(pictures.length)
         
         
-        cities.map((city, index)=> {
-            console.log(city,index)
+        pictures.map((picture, index)=> {
+            console.log(picture,index)
             let tile = document.createElement('div')
             let tileStatus = false
             tile.id = index
             tile.className = 'tile'
-            tile.innerText = city
+            tile.innerText = picture
             grid.appendChild(tile)
             tile.addEventListener('click', ()=>{
                 // console.log(tileStatus)
@@ -88,8 +88,8 @@
                 console.log(index)
                 if (tileStatus){
                     tile.className = 'tile selected'
-                    // console.log(city)
-                    attempt.push(city)
+                    // console.log(picture)
+                    attempt.push(picture)
                     if (attempt.length == code.length) {
                         attempt.sort()
                         code.sort()
@@ -108,7 +108,9 @@
                 }
                 else {
                     tile.className = 'tile'
-                    
+                    attempt = attempt.filter(function(item) {
+                        return item !== picture
+                    })
                     
 
                 } 

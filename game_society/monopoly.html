@@ -191,7 +191,11 @@
                 ++counter
             }
             if (counter === 4) {
-                window.location.replace('pictionary.html')
+                fetch("http://pigamemaster.local:1880/realtree")
+                setTimeout(() => {
+                    window.location.replace('pictionary.html')
+                }, 500);
+                
             }
             
             

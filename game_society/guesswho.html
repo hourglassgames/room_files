@@ -191,7 +191,11 @@
                 ++counter
             }
             if (counter === 4) {
-                window.location.replace('monopoly.html')
+                fetch("http://pigamemaster.local:1880/happiness")
+                setTimeout(() => {
+                    window.location.replace('monopoly.html') 
+                }, 500);
+                
             }
             
             
