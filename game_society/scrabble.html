@@ -18,7 +18,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url("monopoly.jpg");
+            background-image: url("scrabble.jpg");
         }
         .header{
             width: 800px;
@@ -85,29 +85,29 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>Monopoly</h1></div>
+    <div class="header"><h1>Scrabble</h1></div>
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
-                <h2>Dog</h2>
+                <h2>Word 1</h2>
                 <div class="entry" id="item1Entry">
 
                 </div>
             </div>
             <div class="item" id="item2">
-                <h2>Car</h2>
+                <h2>Word 2</h2>
                 <div class="entry" id="item2Entry">
 
                 </div>
             </div>
             <div class="item" id="item3">
-                <h2>Shoe</h2>
+                <h2>Word 3</h2>
                 <div class="entry" id="item3Entry">
 
                 </div>
             </div>
             <div class="item" id="item4">
-                <h2>Thimble</h2>
+                <h2>Word 4</h2>
                 <div class="entry" id="item4Entry"></div>
             </div>
         </div>
@@ -194,9 +194,9 @@
                 ++counter
             }
             if (counter === 4) {
-                fetch("http://pigamemaster.local:1880/table2")
+                fetch("http://pigamemaster.local:1880/table9")
                 setTimeout(() => {
-                    window.location.replace('scrabble.html')
+                    window.location.replace('clue.html')
                 }, 500);
                 
             }

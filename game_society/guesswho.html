@@ -10,6 +10,7 @@
             margin: 0px;
             padding: 0px;
             
+            
         }
         .container{
             width: 800px;
@@ -18,12 +19,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background-image: url("faces.jpg");
         }
         .header{
             width: 800px;
             height: 80px;
-            background-color: black;
-            color: rgb(212, 209, 209);
+            background-color: orangered;
+            color: rgb(36, 36, 36);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -40,24 +42,26 @@
         .item{
             width: 150px;
             height: 150px;
-            background-color: rgb(36, 36, 36);
+            background-color: orangered;
             margin: 10px;
             border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            opacity: .95;
         }
         .key{
             width: 100px;
             height: 75px;
-            background-color: rgb(50, 50, 50);
-            color: rgb(212, 209, 209);
+            background-color: orangered;
+            color: rgb(36, 36, 36);
             margin: 5px;
             border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: .95;
 
         }
         h1{
@@ -75,9 +79,10 @@
             background-color: rgb(212, 209, 209);
             border-radius: 3px;
             text-align: center;
+            
         }
         .selectedItem{
-            background-color: grey;
+            background-color: orange;
         }
     </style>
 </head>
@@ -191,9 +196,8 @@
                 ++counter
             }
             if (counter === 4) {
-                fetch("http://pigamemaster.local:1880/happiness")
                 setTimeout(() => {
-                    window.location.replace('monopoly.html') 
+                    window.location.replace('snakes.html') 
                 }, 500);
                 
             }

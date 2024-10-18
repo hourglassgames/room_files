@@ -17,12 +17,13 @@
         align-items: center;
         justify-content: center;
         gap: 40px;
+        background-image: url("clue.jpg");
     }
     .header{
         width: 800px;
         height: 80px;
-        background-color: black;
-        color: rgb(212, 209, 209);
+        background-color: orangered;
+        color: rgb(36, 36, 36);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -47,6 +48,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
     }
     .key{
         width: 100px;
@@ -66,11 +68,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: grey;
+        background-color: orangered;
+        opacity: .9;
     }
     img{
         border-radius: 5px;
         height: 250px;
+        opacity: .9;
     }
     h1{
         text-align: center;
@@ -162,7 +166,10 @@
             console.log(accusation)
             console.log(code)
             if (accusation + "" == code + "") {
-                window.location.replace('success.html')
+                fetch("http://pigamemaster.local:1880/drawer8")
+                setTimeout(() => {
+                    window.location.replace('success.html')
+                }, 500);
             }
         })
 

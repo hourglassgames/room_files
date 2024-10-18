@@ -22,10 +22,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background-image: url("pictionary.jpg");
         }
         h1{
             padding: 0px;
             margin: 0px;
+            color: black;
         }
         .grid{
             width: 575px;
@@ -38,21 +40,22 @@
         .tile{
             width: 100px;
             height: 100px;
-            background-color: darkgrey;
+            background-color: orangered;
             margin: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 5px;
             border-width: 2px;
-            border-color: rgb(128, 125, 125);
             border-style: solid;
+            border-color: orangered;
             font-size: 18px;
             font-weight: bold;
             color: rgb(50, 50, 50);
+            opacity: .9;
         }
         .selected{
-            background-color: rgb(212, 209, 209);
+            background-color: orange;
             color: rgb(50, 50, 50);
         }
         
@@ -60,7 +63,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Picture This</h1>
+        <h1>Pictionary</h1>
         <div class="grid" id="grid">
 
         </div>
@@ -94,7 +97,7 @@
                         attempt.sort()
                         code.sort()
                         if (attempt + '' == code + '') {
-                            window.location.replace('clue.html')
+                            window.location.replace('monopoly.html')
                         }
                         else{
                             // console.log(attempt)

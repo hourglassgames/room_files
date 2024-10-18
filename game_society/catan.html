@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monopoly Puzzle</title>
+    <title>Catan Puzzle</title>
     <style>
         body{
             margin: 0px;
@@ -18,7 +18,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url("monopoly.jpg");
+            background-image: url("catan.jpg");
         }
         .header{
             width: 800px;
@@ -68,6 +68,7 @@
             margin: 0px;
         }
         h2{
+            text-align: center;
             color: rgb(75, 73, 73);
         }
         .entry{
@@ -85,29 +86,29 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>Monopoly</h1></div>
+    <div class="header"><h1>I Spy Catan</h1></div>
     <div class="container">
         <div class="grid" id="itemGrid">
             <div class="item selectedItem" id="item1">
-                <h2>Dog</h2>
+                <h2>Snowy Mountain</h2>
                 <div class="entry" id="item1Entry">
 
                 </div>
             </div>
             <div class="item" id="item2">
-                <h2>Car</h2>
+                <h2>Field with Fewest Sheep</h2>
                 <div class="entry" id="item2Entry">
 
                 </div>
             </div>
             <div class="item" id="item3">
-                <h2>Shoe</h2>
+                <h2>Top Desert Neighbour</h2>
                 <div class="entry" id="item3Entry">
 
                 </div>
             </div>
             <div class="item" id="item4">
-                <h2>Thimble</h2>
+                <h2>Lowest Coastal</h2>
                 <div class="entry" id="item4Entry"></div>
             </div>
         </div>
@@ -194,9 +195,9 @@
                 ++counter
             }
             if (counter === 4) {
-                fetch("http://pigamemaster.local:1880/table2")
+                fetch("http://pigamemaster.local:1880/drawer4")
                 setTimeout(() => {
-                    window.location.replace('scrabble.html')
+                    window.location.replace('pictionary.html')
                 }, 500);
                 
             }
