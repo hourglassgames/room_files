@@ -131,10 +131,10 @@
 
     <script>
         let keys = ['1','2','3','4','5','6','7','8','9','Reset All','0','Clear Item']
-        let item1Code = [33]
-        let item2Code = [53]
-        let item3Code = [64]
-        let item4Code = [78]
+        let item1Code = [12]
+        let item2Code = [11]
+        let item3Code = [4]
+        let item4Code = [7]
         let keypadGrid = document.getElementById('keypadGrid')
         let item1 = document.getElementById('item1')
         let item2 = document.getElementById('item2')
@@ -147,13 +147,13 @@
         let activeItem = item1
         let activeEntry = item1Entry
         let items = [item1,item2,item3,item4]
-        let colors = ['blue','green','red','yellow']
+        let colors = ['green','yellow','red','blue']
         let itemEntry = [item1Entry,item2Entry,item3Entry,item4Entry]
 
-        items[0].style = 'background-color: blue; border-color: red;'
-        items[1].style = 'background-color: green;'
+        items[0].style = 'background-color: green; border-color: red;'
+        items[1].style = 'background-color: yellow;'
         items[2].style = 'background-color: red;'
-        items[3].style = 'background-color: yellow;'
+        items[3].style = 'background-color: blue;'
 
         items.map((item, index) => {
             item.addEventListener('click',()=>{
