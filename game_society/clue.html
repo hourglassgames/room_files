@@ -167,6 +167,10 @@
             console.log(code)
             if (accusation + "" == code + "") {
                 fetch("http://pigamemaster.local:1880/drawer8")
+                setTimeout(()=>{
+                    fetch("http://pigamemaster.local:1880/success")
+                    ,500
+                })
                 setTimeout(() => {
                     window.location.replace('success.html')
                 }, 500);
