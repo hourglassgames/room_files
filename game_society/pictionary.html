@@ -97,7 +97,10 @@
                         attempt.sort()
                         code.sort()
                         if (attempt + '' == code + '') {
-                            window.location.replace('monopoly.html')
+                            fetch("http://pigamemaster.local:1880/drawer5")
+                            setTimeout(() => {
+                                 window.location.replace('monopoly.html')
+                            }, 500);
                         }
                         else{
                             // console.log(attempt)
