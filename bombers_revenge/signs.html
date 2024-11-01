@@ -219,7 +219,10 @@
                 console.log(anagramSelectedLetters)
                 if (anagramCode + '' == anagramSelectedLetters + ''){
                     console.log('Matched!!!')
-                    window.location.replace('tools.html')
+                    fetch("http://pigamemaster.local:1880/drawingBox")
+                    setTimeout(() => {
+                        window.location.replace('tools.html')
+                    },500)
                 }
             })
         });

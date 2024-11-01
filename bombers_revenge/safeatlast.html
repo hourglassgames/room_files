@@ -131,7 +131,11 @@
         
         function checkAnswer(){
             if ((buttonValues + "") === (code + "")){
-                window.location.replace('congratulations.html')
+                fetch("http://pigamemaster.local:1880/openSafe")
+                setTimeout(() => {
+                        window.location.replace('congratulations.html')
+                    },500)
+
             }   
         }
 
