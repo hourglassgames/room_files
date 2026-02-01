@@ -140,6 +140,8 @@
       display:flex;
       align-items:center;
       gap:12px;
+      width:100%;
+      min-width:0;
     }
 
     .icon{
@@ -147,12 +149,14 @@
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.08);
       display:flex; align-items:center; justify-content:center;
-      \1
+      font-size:18px;
       font-family: \"Apple Color Emoji\",\"Segoe UI Emoji\",\"Noto Color Emoji\",sans-serif;
     }
 
     .pin{
-      width:100%;
+      flex:1 1 auto;
+      min-width:0;
+      width:auto;
       height:72px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,.12);
