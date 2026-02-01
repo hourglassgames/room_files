@@ -68,7 +68,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:24px;
+      font-size:24px;\r\n      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
     }
 
     .brand h1{
@@ -200,7 +200,7 @@
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="logo">Ã°Å¸ÂÂ½Ã¯Â¸Â</div>
+      <div class="logo">&#x1F37D;&#xFE0F;</div>
       <div>
         <h1>Dining Room POS</h1>
         <div class="sub">Employee Access Terminal</div>
@@ -287,7 +287,7 @@
     const current = stateIdx.map(idx => POINTS[idx]);
     if(current.join() === CODE.join()){
       locked = true;
-      statusEl.textContent = "Correct perspectiveÃ¢â‚¬Â¦";
+      statusEl.textContent = "Correct perspective&#x2026;";
       statusEl.classList.add("ok");
 
       triggerNR({
@@ -312,6 +312,7 @@
 </script>
 </body>
 </html>
+
 
 
 

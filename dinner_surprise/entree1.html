@@ -61,7 +61,7 @@
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
       display:flex; align-items:center; justify-content:center;
-      font-size:24px;
+      font-size:24px;\r\n      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
     }
 
     .brand h1{ margin:0; font-size:22px; letter-spacing:.4px; }
@@ -197,7 +197,7 @@
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="logo">ðŸ½ï¸</div>
+      <div class="logo">&#x1F37D;&#xFE0F;</div>
       <div>
         <h1>Dining Room POS</h1>
         <div class="sub">Employee Access Terminal</div>
@@ -317,7 +317,7 @@
     if(selected.size === 5){
       if(isCorrect()){
         locked = true;
-        setStatus("Correct recipeâ€¦", "ok");
+        setStatus("Correct recipe&#x2026;", "ok");
 
         triggerNR({
           event:"build_entree_solved",
@@ -356,6 +356,7 @@
 </script>
 </body>
 </html>
+
 
 
 
