@@ -1,8 +1,8 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=1280, height=800, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Employee Login</title>
   <style>
     :root{
@@ -22,7 +22,7 @@
 
     html, body{
       margin:0; padding:0;
-      width:1280px; height:800px;
+      width:100%; height:100%;
       overflow:hidden;
       background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
       color: var(--text);
@@ -32,7 +32,7 @@
     }
 
     .app{
-      width:1280px; height:800px;
+      width:100%; height:100%;
       box-sizing:border-box;
       padding:18px;
       display:grid;
@@ -225,13 +225,13 @@
   <div class="app">
     <div class="topbar">
       <div class="brand">
-        <div class="logo" aria-hidden="true">🍽️</div>
+        <div class="logo" aria-hidden="true">ðŸ½ï¸</div>
         <div>
           <h1>Dining Room POS</h1>
           <div class="sub">Employee Access Terminal</div>
         </div>
       </div>
-      <div class="pill">Touchscreen • PIN</div>
+      <div class="pill">Touchscreen â€¢ PIN</div>
     </div>
 
     <div class="content">
@@ -244,7 +244,7 @@
         <div class="field" id="pinField">
           <div class="label">EMPLOYEE PIN</div>
           <div class="pinRow">
-            <div class="icon">🔒</div>
+            <div class="icon">ðŸ”’</div>
             <input id="pin" class="pin" type="password" inputmode="none" readonly />
           </div>
           <div class="msg" id="msg">Ready.</div>
@@ -303,7 +303,7 @@
       return;
     }
 
-    setMsg("Access granted…","ok");
+    setMsg("Access grantedâ€¦","ok");
     triggerNodeRed({ event:"employee_login", page:"01-login", code:pinEl.value, ts:new Date().toISOString() });
     setTimeout(()=>location.href=NEXT_PAGE, NAV_DELAY_MS);
   }
