@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1280, height=800, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Employee Access Terminal</title>
+
+  <style>
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+      width:1280px;
+      height:800px;
+      overflow:hidden;
+      background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
+    }
+
+    .app{
+      width:1280px;
+      height:800px;
+      padding:18px;
+      box-sizing:border-box;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+
+    .brand .sub{
+      margin-top:2px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .pill{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      color:var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:relative;
+    }
+
+    .headerCard{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding:18px 20px;
+      margin-bottom:18px;
+    }
+
+    .title{
+      margin:0;
+      font-size:30px;
+      letter-spacing:.3px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .button_grid{
+      height: calc(100% - 140px);
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:16px;
+      align-items:center;
+    }
+
+    .compassBtn{
+      height:100%;
+      min-height:360px;
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+      box-shadow: 0 12px 26px rgba(0,0,0,.28);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      touch-action: manipulation;
+      position:relative;
+      transition:.08s;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .compassBtn:active{
+      transform: translateY(1px);
+    }
+
+    .compassFace{
+      width:220px;
+      height:220px;
+      border-radius:24px;
+      background: radial-gradient(circle at 30% 25%, rgba(53,194,255,.15), rgba(255,255,255,.02));
+      border: 1px solid rgba(53,194,255,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:#e9f6ff;
+      font-size:64px;
+      letter-spacing:2px;
+    }
+
+    .compassFace::before{
+      content:"";
+      position:absolute;
+      inset:16px;
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.12);
+    }
+
+    .roleLabel{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .status{
+      position:absolute;
+      bottom:18px;
+      left:24px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .status.ok{
+      color:#7cf5d8;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">ðŸ½ï¸</div>
+      <div>
+        <h1>Dining Room POS</h1>
+        <div class="sub">Employee Access Terminal</div>
+      </div>
+    </div>
+    <div class="pill">Touchscreen</div>
+  </div>
+
+  <div class="panel">
+    <div class="headerCard">
+      <p class="title">Points of View</p>
+      <p class="hint">It&#39;s important to see how others see</p>
+    </div>
+
+    <div class="button_grid">
+      <button class="compassBtn" id="b0" type="button"></button>
+      <button class="compassBtn" id="b1" type="button"></button>
+      <button class="compassBtn" id="b2" type="button"></button>
+      <button class="compassBtn" id="b3" type="button"></button>
+    </div>
+
+    <div class="status" id="status">Ready.</div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
+  const NEXT_PAGE = "entree1.html";
+  const NAV_DELAY_MS = 50;
+
+  const CODE = ["N","NE","E","SE"];
+
+  const POINTS = ["N","NE","E","SE","S","SW","W","NW"];
+  const buttons = [...Array(4)].map((_,i)=>document.getElementById("b"+i));
+  const stateIdx = [0,0,0,0];
+  const statusEl = document.getElementById("status");
+  let locked = false;
+  const ROLES = ["Father","Mother","Daughter","Son"];
+
+  function render(btn, label, role){
+    btn.innerHTML = "";
+    const roleEl = document.createElement("div");
+    roleEl.className = "roleLabel";
+    roleEl.textContent = role;
+
+    const face = document.createElement("div");
+    face.className = "compassFace";
+    face.textContent = label;
+    btn.appendChild(roleEl);
+    btn.appendChild(face);
+  }
+
+  function renderAll(){
+    buttons.forEach((b,i)=>render(b, POINTS[stateIdx[i]], ROLES[i]));
+  }
+
+  function triggerNR(payload){
+    try{
+      fetch(NODE_RED_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true
+      });
+    }catch{}
+  }
+
+  function goNext(){
+    try {
+      location.replace(NEXT_PAGE);
+    } catch {
+      location.href = NEXT_PAGE;
+    }
+  }
+
+  function advance(i){
+    if(locked) return;
+
+    stateIdx[i] = (stateIdx[i] + 1) % POINTS.length;
+    render(buttons[i], POINTS[stateIdx[i]], ROLES[i]);
+
+    const current = stateIdx.map(idx => POINTS[idx]);
+    if(current.join() === CODE.join()){
+      locked = true;
+      statusEl.textContent = "Correct perspectiveâ€¦";
+      statusEl.classList.add("ok");
+
+      triggerNR({
+        event:"compass_puzzle_solved",
+        page:"points-of-view",
+        code: current,
+        ts: new Date().toISOString()
+      });
+
+      setTimeout(goNext, NAV_DELAY_MS);
+      setTimeout(goNext, 300);
+    }
+  }
+
+  renderAll();
+  buttons.forEach((b,i)=>{
+    b.onpointerdown = (e) => { e.preventDefault(); advance(i); };
+  });
+
+  document.addEventListener("dblclick", e => e.preventDefault());
+})();
+</script>
+</body>
+</html>

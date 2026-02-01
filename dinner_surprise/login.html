@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1280, height=800, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Employee Login</title>
+  <style>
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --panel2:#1a2430;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --danger:#ff4d4d;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    html, body{
+      margin:0; padding:0;
+      width:1280px; height:800px;
+      overflow:hidden;
+      background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
+    }
+
+    .app{
+      width:1280px; height:800px;
+      box-sizing:border-box;
+      padding:18px;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{ display:flex; align-items:center; gap:12px; }
+
+    /* Emoji tile */
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+    }
+
+    .brand h1{ margin:0; font-size:22px; letter-spacing:.4px; }
+    .brand .sub{ margin-top:2px; font-size:13px; color:var(--muted); }
+
+    .pill{
+      display:flex; align-items:center; gap:8px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .content{
+      height:100%;
+      display:grid;
+      grid-template-columns: 1fr 520px;
+      gap:14px;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      box-sizing:border-box;
+    }
+
+    .left{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:16px;
+      padding: 10px 30px;
+    }
+
+    .cardHeader,
+    .field{
+      width: 560px;
+      max-width: 560px;
+    }
+
+    .cardHeader{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding: 18px;
+    }
+
+    .title{ margin:0; font-size:32px; letter-spacing:.4px; }
+    .hint{ margin:10px 0 0; color:var(--muted); font-size:14px; }
+
+    .field{
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .label{
+      font-size:13px;
+      color: var(--muted);
+      letter-spacing:.3px;
+    }
+
+    .pinRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .icon{
+      width:44px; height:44px; border-radius:12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px;
+    }
+
+    .pin{
+      width:100%;
+      height:72px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.28);
+      color: var(--text);
+      font-size: 30px;
+      padding: 0 16px;
+      box-sizing:border-box;
+      outline:none;
+      caret-color: transparent;
+    }
+
+    .msg{
+      min-height: 22px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .msg.error{ color: #ff8b8b; }
+    .msg.ok{ color: #7cf5d8; }
+
+    .shake{
+      animation: shake .22s linear 0s 2;
+      border-color: rgba(255,77,77,.55) !important;
+      box-shadow: 0 0 0 3px rgba(255,77,77,.12);
+    }
+    @keyframes shake{
+      0%{ transform: translateX(0); }
+      25%{ transform: translateX(-6px); }
+      50%{ transform: translateX(6px); }
+      75%{ transform: translateX(-4px); }
+      100%{ transform: translateX(0); }
+    }
+
+    .right{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .keys{
+      display:grid;
+      grid-template-rows: repeat(4, 1fr);
+      gap:12px;
+      height: 620px;
+      padding: 10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .key{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+      color: var(--text);
+      font-size: 38px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      touch-action: manipulation;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+    .key:active{ transform: translateY(1px); }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🍽️</div>
+        <div>
+          <h1>Dining Room POS</h1>
+          <div class="sub">Employee Access Terminal</div>
+        </div>
+      </div>
+      <div class="pill">Touchscreen • PIN</div>
+    </div>
+
+    <div class="content">
+      <div class="panel left">
+        <div class="cardHeader">
+          <p class="title">Employee Login</p>
+          <p class="hint">Enter your 6-digit employee PIN.</p>
+        </div>
+
+        <div class="field" id="pinField">
+          <div class="label">EMPLOYEE PIN</div>
+          <div class="pinRow">
+            <div class="icon">🔒</div>
+            <input id="pin" class="pin" type="password" inputmode="none" readonly />
+          </div>
+          <div class="msg" id="msg">Ready.</div>
+        </div>
+      </div>
+
+      <div class="panel right">
+        <div class="keys">
+          <div class="row" id="r1"></div>
+          <div class="row" id="r2"></div>
+          <div class="row" id="r3"></div>
+          <div class="row" id="r4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const CORRECT_PIN = "246810";
+  const PIN_LENGTH = 6;
+  const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
+  const NEXT_PAGE = "roses.html";
+  const NAV_DELAY_MS = 50;
+
+  const pinEl = document.getElementById("pin");
+  const msgEl = document.getElementById("msg");
+  const pinField = document.getElementById("pinField");
+
+  const rows = ["r1","r2","r3","r4"].map(id => document.getElementById(id));
+  let locked = false;
+
+  function setMsg(t, k=""){ msgEl.textContent=t; msgEl.className="msg"+(k?` ${k}`:""); }
+  function shake(){ pinField.classList.add("shake"); setTimeout(()=>pinField.classList.remove("shake"),450); }
+
+  function triggerNodeRed(payload){
+    try{
+      fetch(NODE_RED_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify(payload),
+        keepalive:true
+      });
+    }catch{}
+  }
+
+  function submitIfReady(){
+    if(locked || pinEl.value.length!==PIN_LENGTH) return;
+    locked=true;
+
+    if(pinEl.value!==CORRECT_PIN){
+      setMsg("Invalid PIN.","error");
+      shake();
+      setTimeout(()=>{ pinEl.value=""; locked=false; setMsg("Ready."); },550);
+      return;
+    }
+
+    setMsg("Access granted…","ok");
+    triggerNodeRed({ event:"employee_login", page:"01-login", code:pinEl.value, ts:new Date().toISOString() });
+    setTimeout(()=>location.href=NEXT_PAGE, NAV_DELAY_MS);
+  }
+
+  function pressDigit(d){
+    if(locked || pinEl.value.length>=PIN_LENGTH) return;
+    pinEl.value+=d;
+    submitIfReady();
+  }
+
+  const layout=[["7","8","9"],["4","5","6"],["1","2","3"],["","0",""]];
+  layout.forEach((row,i)=>{
+    rows[i].innerHTML="";
+    row.forEach(k=>{
+      if(!k){ rows[i].appendChild(document.createElement("div")); }
+      else{
+        const b=document.createElement("button");
+        b.className="key"; b.textContent=k;
+        b.onpointerdown=e=>{ e.preventDefault(); pressDigit(k); };
+        rows[i].appendChild(b);
+      }
+    });
+  });
+
+  document.addEventListener("dblclick",e=>e.preventDefault());
+})();
+</script>
+</body>
+</html>

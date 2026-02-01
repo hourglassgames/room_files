@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1280, height=800, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Employee Access Terminal</title>
+
+  <style>
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --panel2:#1a2430;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+      width:1280px;
+      height:800px;
+      overflow:hidden;
+      background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
+    }
+
+    .app{
+      width:1280px;
+      height:800px;
+      padding:18px;
+      box-sizing:border-box;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      letter-spacing:.08em;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+
+    .brand .sub{
+      margin-top:2px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .pill{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      color:var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:relative;
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+      gap:14px;
+    }
+
+    .headerCard{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding:18px 20px;
+    }
+
+    .title{
+      margin:0;
+      font-size:30px;
+      letter-spacing:.3px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .cardsGrid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+      align-items:stretch;
+    }
+
+    .fontCard{
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      padding: 12px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:140px;
+      align-items:stretch;
+      justify-content:center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
+      transition: border-color .12s, box-shadow .12s;
+    }
+
+    .fontCard.active{
+      border-color: rgba(53,194,255,.65);
+      box-shadow: 0 0 0 3px rgba(53,194,255,.12), inset 0 0 0 1px rgba(0,0,0,.2);
+    }
+
+    .fontCard.ok{
+      border-color: rgba(53,194,255,.70);
+      background: linear-gradient(180deg, rgba(53,194,255,.22) 0%, rgba(255,255,255,.02) 100%);
+      box-shadow: 0 0 0 4px rgba(53,194,255,.14), inset 0 0 0 1px rgba(0,0,0,.2);
+    }
+
+    .fontLabel{
+      font-size:18px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--text);
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:28px;
+      line-height:1;
+    }
+
+    .fontLabel.block{
+      font-family: "Impact", "Haettenschweiler", "Arial Black", sans-serif;
+      letter-spacing:.16em;
+    }
+
+    .fontLabel.script{
+      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
+      text-transform:none;
+      letter-spacing:.02em;
+      font-size:22px;
+      height:30px;
+    }
+
+    .fontLabel.serif{
+      font-family: "Georgia", "Times New Roman", serif;
+      text-transform:none;
+      letter-spacing:.04em;
+    }
+
+    .fontLabel.mono{
+      font-family: "Consolas", "Courier New", monospace;
+      text-transform:none;
+      letter-spacing:.12em;
+    }
+
+    .wordInput{
+      width:100%;
+      height:52px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.28);
+      color: var(--text);
+      font-size: 22px;
+      padding: 0 14px;
+      box-sizing:border-box;
+      outline:none;
+      caret-color: transparent;
+      letter-spacing:.04em;
+      text-align:center;
+    }
+
+    .wordInput::placeholder{
+      color: rgba(159,178,200,.7);
+    }
+
+    .keyboardArea{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px 14px;
+      display:grid;
+      grid-template-rows: 1fr auto;
+      gap:10px;
+    }
+
+    .keys{
+      display:grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap:10px;
+      height: 220px;
+      padding: 4px;
+    }
+
+    .row{
+      display:grid;
+      gap:12px;
+    }
+
+    .key{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+      color: var(--text);
+      font-size: 22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      touch-action: manipulation;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .key:active{ transform: translateY(1px); }
+
+    .clearBtn{
+      height:60px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.03) 100%);
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .clearBtn:active{ transform: translateY(1px); }
+
+    .clearRow{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:10px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">POS</div>
+      <div>
+        <h1>Dining Room POS</h1>
+        <div class="sub">Employee Access Terminal</div>
+      </div>
+    </div>
+    <div class="pill">Touchscreen</div>
+  </div>
+
+  <div class="panel">
+    <div class="headerCard">
+      <p class="title">Napkin Rings</p>
+      <p class="hint">Find the words in each font and enter them below.</p>
+    </div>
+
+    <div class="cardsGrid">
+        <div class="fontCard" data-index="0">
+          <div class="fontLabel block">Block</div>
+          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
+        </div>
+        <div class="fontCard" data-index="1">
+          <div class="fontLabel script">Script</div>
+          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
+        </div>
+        <div class="fontCard" data-index="2">
+          <div class="fontLabel serif">Serif</div>
+          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
+        </div>
+        <div class="fontCard" data-index="3">
+          <div class="fontLabel mono">Monospace</div>
+          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
+        </div>
+    </div>
+
+    <div class="keyboardArea">
+      <div class="keys">
+        <div class="row" id="r1"></div>
+        <div class="row" id="r2"></div>
+        <div class="row" id="r3"></div>
+      </div>
+      <div class="clearRow">
+        <button class="clearBtn" id="clearFieldBtn" type="button">Clear Field</button>
+        <button class="clearBtn" id="clearAllBtn" type="button">Clear All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
+  const NEXT_PAGE = "points_of_view.html";
+  const NAV_DELAY_MS = 50;
+
+  const ANSWERS = ["LOVE","ROMANCE","DESIRE","JOY"];
+  const cards = [...document.querySelectorAll(".fontCard")];
+  const inputs = [...document.querySelectorAll(".wordInput")];
+  const rows = ["r1","r2","r3"].map(id => document.getElementById(id));
+  const clearFieldBtn = document.getElementById("clearFieldBtn");
+  const clearAllBtn = document.getElementById("clearAllBtn");
+  let activeIndex = 0;
+  let locked = false;
+
+  function setActive(idx){
+    activeIndex = idx;
+    cards.forEach((c,i)=>c.classList.toggle("active", i===idx));
+  }
+
+  function normalize(value){
+    return value.toUpperCase();
+  }
+
+  function updateCardState(idx){
+    const value = normalize(inputs[idx].value);
+    const isCorrect = value === ANSWERS[idx];
+    cards[idx].classList.toggle("ok", isCorrect);
+  }
+
+  function updateAllStates(){
+    cards.forEach((_,i)=>updateCardState(i));
+    checkSolved();
+  }
+
+  function triggerNR(payload){
+    try{
+      fetch(NODE_RED_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true
+      });
+    }catch{}
+  }
+
+  function goNext(){
+    try {
+      location.replace(NEXT_PAGE);
+    } catch {
+      location.href = NEXT_PAGE;
+    }
+  }
+
+  function checkSolved(){
+    if(locked) return;
+    const allCorrect = ANSWERS.every((a,i)=>normalize(inputs[i].value) === a);
+    if(!allCorrect) return;
+    locked = true;
+    triggerNR({
+      event:"napkin_rings_solved",
+      page:"napkin-rings",
+      code: ANSWERS,
+      ts: new Date().toISOString()
+    });
+    setTimeout(goNext, NAV_DELAY_MS);
+    setTimeout(goNext, 300);
+  }
+
+  function insertLetter(letter){
+    const field = inputs[activeIndex];
+    if(!field) return;
+    field.value += letter;
+    updateCardState(activeIndex);
+    checkSolved();
+  }
+
+  function clearField(){
+    const field = inputs[activeIndex];
+    if(field) field.value = "";
+    updateCardState(activeIndex);
+  }
+
+  function clearAll(){
+    inputs.forEach(i => i.value = "");
+    updateAllStates();
+  }
+
+  const layout = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L"],
+    ["Z","X","C","V","B","N","M"]
+  ];
+
+  layout.forEach((rowKeys, i) => {
+    const row = rows[i];
+    row.style.gridTemplateColumns = `repeat(${rowKeys.length}, 1fr)`;
+    row.innerHTML = "";
+    rowKeys.forEach(letter => {
+      const b = document.createElement("button");
+      b.className = "key";
+      b.type = "button";
+      b.textContent = letter;
+      b.onpointerdown = e => { e.preventDefault(); insertLetter(letter); };
+      row.appendChild(b);
+    });
+  });
+
+  cards.forEach((card, idx) => {
+    card.onpointerdown = e => {
+      e.preventDefault();
+      setActive(idx);
+    };
+  });
+
+  clearFieldBtn.onpointerdown = e => {
+    e.preventDefault();
+    clearField();
+  };
+
+  clearAllBtn.onpointerdown = e => {
+    e.preventDefault();
+    clearAll();
+  };
+
+  setActive(0);
+  updateAllStates();
+  document.addEventListener("dblclick", e => e.preventDefault());
+})();
+</script>
+</body>
+</html>
