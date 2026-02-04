@@ -1,11 +1,11 @@
-﻿from machine import Pin
+from machine import Pin
 import time
 
 # GPIO list: GP0-22 and GP26
 GPIO_PINS = list(range(0, 23)) + [26]
 
 # Set ACTIVE_STATE to 1 for active-high relays, or 0 for active-low relays.
-ACTIVE_STATE = 1
+ACTIVE_STATE = 0
 INACTIVE_STATE = 0 if ACTIVE_STATE == 1 else 1
 
 # Initialize relay pins

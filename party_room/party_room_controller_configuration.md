@@ -50,6 +50,27 @@ Connect each relay input to the corresponding Pico GPIO:
 
 Install MicroPython on the Pico 2 W, then copy `pico_relay_test.py` to the board as `main.py` (or run it manually).
 
+For HTTP control with Node-RED, use `main.py` in this folder.
+
+### HTTP API for `main.py`
+
+- Method: `POST`
+- Endpoint: `/relay/<n>`
+- Relay number (`n`): `1` through `24`
+- Behavior: energizes the selected relay for `0.5` seconds, then returns it to inactive
+
+Example request strings:
+
+- `POST http://<pico-ip>/relay/1`
+- `POST http://<pico-ip>/relay/12`
+- `POST http://<pico-ip>/relay/24`
+
+Optional alternative formats accepted by the script:
+
+- `POST /trigger?relay=7`
+- Body: `relay=7`
+- Body JSON: `{"relay":7}`
+
 ### Notes on relay logic
 
 Some relay boards are **active-low** (IN pin is driven LOW to energize). Others are **active-high**. The script includes an `ACTIVE_STATE` constant you can flip if the relays toggle the wrong way.

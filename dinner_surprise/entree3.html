@@ -91,8 +91,12 @@
 <script>
 (() => {
   const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
-  const NEXT_PAGE = "points_of_view.html"; // <-- after the 3rd entree, go to your next puzzle
+  const NEXT_PAGE = "roses.html";
   const NAV_DELAY_MS = 50;
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/3";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
 
   const ENTREE_TITLE = "Ocean Pearl Lobster";
   const CODE = new Set(["Lobster tail","Fennel bulb","Vanilla bean","Cream","Chives"]);
@@ -141,6 +145,32 @@
     catch { location.href = NEXT_PAGE; }
   }
 
+  async function postRelay3Once(){
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), RELAY_TIMEOUT_MS);
+
+    try{
+      return await fetch(RELAY_ENDPOINT, {
+        method: "POST",
+        signal: controller.signal,
+        cache: "no-store"
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  async function triggerRelay3WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const response = await postRelay3Once();
+        if(response && response.status === 200){
+          return;
+        }
+      }catch{}
+    }
+  }
+
   function clearAll(){
     selected.clear();
     [...gridEl.children].forEach(b => b.classList.remove("on"));
@@ -181,8 +211,7 @@
           ts:new Date().toISOString()
         });
 
-        setTimeout(goNext, NAV_DELAY_MS);
-        setTimeout(goNext, 300);
+        triggerRelay3WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
       } else {
         locked = true;
         setStatus("Incorrect. Start over.", "err");

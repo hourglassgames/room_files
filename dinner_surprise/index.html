@@ -276,8 +276,7 @@
 (() => {
   const CORRECT_PIN = "246810";
   const PIN_LENGTH = 6;
-  const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
-  const NEXT_PAGE = "roses.html";
+  const NEXT_PAGE = "plates.html";
   const NAV_DELAY_MS = 50;
 
   const pinEl = document.getElementById("pin");
@@ -289,18 +288,6 @@
 
   function setMsg(t, k=""){ msgEl.textContent=t; msgEl.className="msg"+(k?` ${k}`:""); }
   function shake(){ pinField.classList.add("shake"); setTimeout(()=>pinField.classList.remove("shake"),450); }
-
-  function triggerNodeRed(payload){
-    try{
-      fetch(NODE_RED_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{ "Content-Type":"application/json" },
-        body:JSON.stringify(payload),
-        keepalive:true
-      });
-    }catch{}
-  }
 
   function submitIfReady(){
     if(locked || pinEl.value.length!==PIN_LENGTH) return;
@@ -314,7 +301,6 @@
     }
 
     setMsg("Access granted&#x2026;","ok");
-    triggerNodeRed({ event:"employee_login", page:"01-login", code:pinEl.value, ts:new Date().toISOString() });
     setTimeout(()=>location.href=NEXT_PAGE, NAV_DELAY_MS);
   }
 
@@ -343,6 +329,12 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

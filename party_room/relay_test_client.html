@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pico Relay Tester</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --text: #1a2a3a;
+      --accent: #1f6feb;
+      --accent-dark: #1656b8;
+      --border: #d0d7e2;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #e8f0ff, #f9fbff);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .panel {
+      width: min(900px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(18, 40, 80, 0.12);
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 1.4rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    input {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-width: 240px;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      margin: 0;
+      color: #43566d;
+      font-size: 0.85rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 12px 10px;
+      transition: background 120ms ease;
+    }
+
+    button:hover {
+      background: var(--accent-dark);
+    }
+
+    #status {
+      margin-top: 14px;
+      background: #f6f8fa;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 42px;
+      font-family: Consolas, monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Pico 2 W Relay Test Sender</h1>
+    <div class="controls">
+      <label for="picoIpAddress">Pico IP URL:</label>
+      <input id="picoIpAddress" type="text" value="http://192.168.1.123" />
+    </div>
+    <p class="hint">A response is confirmed when HTTP 200 is shown (that means the request was received and handled).</p>
+    <div id="relayButtons" class="grid"></div>
+    <div id="status">Ready.</div>
+  </div>
+
+  <script>
+    const relayButtons = document.getElementById("relayButtons");
+    const statusBox = document.getElementById("status");
+    const picoIpAddressInput = document.getElementById("picoIpAddress");
+
+    function setStatus(text) {
+      statusBox.textContent = text;
+    }
+
+    async function postRelay(url, relayNumber) {
+      return fetch(`${url}/relay/${relayNumber}`, { method: "POST" });
+    }
+
+    async function triggerRelay(relayNumber) {
+      const ipUrl = picoIpAddressInput.value.trim().replace(/\/+$/, "");
+      if (!ipUrl) {
+        setStatus("Please enter a Pico IP URL, for example: http://192.168.1.123");
+        return;
+      }
+
+      setStatus(`Sending POST ${ipUrl}/relay/${relayNumber} ...`);
+
+      try {
+        const response = await postRelay(ipUrl, relayNumber);
+        const text = await response.text();
+        const received = response.status === 200 ? "Yes" : "No";
+        setStatus(
+          `Relay ${relayNumber} via IP: HTTP ${response.status}\n` +
+          `Response received: ${received}\n` +
+          `${text}`
+        );
+      } catch (error) {
+        setStatus(`Relay ${relayNumber} via IP failed\nResponse received: No\n${error}`);
+      }
+    }
+
+    for (let relay = 1; relay <= 24; relay += 1) {
+      const button = document.createElement("button");
+      button.textContent = `Relay ${relay}`;
+      button.addEventListener("click", () => triggerRelay(relay));
+      relayButtons.appendChild(button);
+    }
+  </script>
+</body>
+</html>
