@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -9,7 +9,6 @@
     :root{
       --bg:#0e141b;
       --panel:#141c25;
-      --panel2:#1a2430;
       --border:#2a3a4a;
       --text:#e8f0ff;
       --muted:#9fb2c8;
@@ -129,47 +128,37 @@
 
     .stack{
       display:grid;
-      gap:10px;
-      align-content:start;
+      gap:12px;
+      align-content:center;
       justify-items:center;
-      width:100%;
     }
 
-    .wineRow{
-      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
-      border: 1px solid rgba(255,255,255,.10);
+    .tile{
       border-radius: var(--radius2);
-      padding: 10px 34px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      min-height:66px;
-      width:80%;
-      justify-self:center;
+      border: 1px solid rgba(255,255,255,.10);
+      min-height:160px;
+      display:grid;
+      place-items:center;
+      width:70%;
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
     }
 
-    .wineName{
-      font-size:18px;
-      letter-spacing:.04em;
-    }
-
-    .wineInput{
-      width:120px;
-      height:48px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.28);
+    .tileInput{
+      width:220px;
+      height:60px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(0,0,0,.25);
       color: var(--text);
-      font-size: 26px;
+      font-size: 28px;
       text-align:center;
       outline:none;
       caret-color: transparent;
     }
 
-    .wineRow.active{
-      border-color: rgba(53,194,255,.70);
-      box-shadow: 0 0 0 3px rgba(53,194,255,.12);
+    .tile.active{
+      border-color: rgba(53,194,255,.75);
+      box-shadow: 0 0 0 3px rgba(53,194,255,.14);
     }
 
     .status{
@@ -214,26 +203,18 @@
     }
     .key:active{ transform: translateY(1px); }
 
-    .actions{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:12px;
-      margin-top:12px;
+    .shake{
+      animation: shake .22s linear 0s 2;
+      border-color: rgba(255,77,77,.55) !important;
+      box-shadow: 0 0 0 3px rgba(255,77,77,.12);
     }
-
-    .actionBtn{
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.03) 100%);
-      color: var(--text);
-      font-size: 18px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      cursor:pointer;
-      height:60px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    @keyframes shake{
+      0%{ transform: translateX(0); }
+      25%{ transform: translateX(-6px); }
+      50%{ transform: translateX(6px); }
+      75%{ transform: translateX(-4px); }
+      100%{ transform: translateX(0); }
     }
-    .actionBtn:active{ transform: translateY(1px); }
   </style>
 </head>
 <body>
@@ -252,34 +233,17 @@
   <div class="content">
     <div class="panel left">
       <div class="headerCard">
-        <p class="title">Wine Bottles</p>
-        <p class="hint">Enter the order quantity for each wine.</p>
+        <p class="title">Liqueurs</p>
+        <p class="hint">Find the order, enter the code.</p>
       </div>
 
-      <div class="stack">
-        <div class="wineRow" data-index="0">
-          <div class="wineName">Meadow Light</div>
-          <input class="wineInput" type="text" inputmode="none" readonly />
-        </div>
-        <div class="wineRow" data-index="1">
-          <div class="wineName">Sovereign Garnet</div>
-          <input class="wineInput" type="text" inputmode="none" readonly />
-        </div>
-        <div class="wineRow" data-index="2">
-          <div class="wineName">Whisper Coast</div>
-          <input class="wineInput" type="text" inputmode="none" readonly />
-        </div>
-        <div class="wineRow" data-index="3">
-          <div class="wineName">Alba Dorata</div>
-          <input class="wineInput" type="text" inputmode="none" readonly />
-        </div>
-        <div class="wineRow" data-index="4">
-          <div class="wineName">Eclipse Noir</div>
-          <input class="wineInput" type="text" inputmode="none" readonly />
+      <div class="stack" id="tiles">
+        <div class="tile active" data-answer="57318">
+          <input class="tileInput" type="text" inputmode="none" readonly />
         </div>
       </div>
 
-      <div class="status" id="status">Tap a field, then enter digits.</div>
+      <div class="status" id="status">Enter the 5-digit code.</div>
     </div>
 
     <div class="panel right">
@@ -289,69 +253,99 @@
         <div class="row" id="r3"></div>
         <div class="row" id="r4"></div>
       </div>
-      <div class="actions">
-        <button class="actionBtn" id="clearFieldBtn" type="button">Clear Field</button>
-        <button class="actionBtn" id="clearAllBtn" type="button">Clear All</button>
-      </div>
     </div>
   </div>
-</div>
-
 <script>
 (() => {
-  const NEXT_PAGE = "liqueurs.html";
+  const NEXT_PAGE = "congratulations.html";
   const NAV_DELAY_MS = 50;
-
-  const ANSWERS = ["7","5","7","2","9"];
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/1";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
+  const tiles = [...document.querySelectorAll(".tile")];
+  const inputs = [...document.querySelectorAll(".tileInput")];
   const rows = ["r1","r2","r3","r4"].map(id => document.getElementById(id));
-  const fields = [...document.querySelectorAll(".wineRow")];
-  const inputs = [...document.querySelectorAll(".wineInput")];
-  const clearFieldBtn = document.getElementById("clearFieldBtn");
-  const clearAllBtn = document.getElementById("clearAllBtn");
   const statusEl = document.getElementById("status");
   let activeIndex = 0;
   let locked = false;
 
   function setActive(idx){
     activeIndex = idx;
-    fields.forEach((f,i)=>f.classList.toggle("active", i===idx));
+    tiles.forEach((t,i)=>t.classList.toggle("active", i===idx));
   }
 
   function setStatus(t){
     statusEl.textContent = t;
   }
 
+  function shake(){
+    const tile = tiles[0];
+    tile.classList.add("shake");
+    setTimeout(() => tile.classList.remove("shake"), 450);
+  }
+
   function checkSolved(){
-    const allCorrect = ANSWERS.every((a,i)=>inputs[i].value === a);
-    if(allCorrect && !locked){
+    const tile = tiles[0];
+    if(!tile) return;
+    if(inputs[0].value === tile.dataset.answer){
       locked = true;
       setStatus("Correct code.");
-      setTimeout(goNext, NAV_DELAY_MS);
-      setTimeout(goNext, 300);
+      triggerRelay1WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
+      return;
+    }
+    if(inputs[0].value.length === 5){
+      setStatus("Incorrect code.");
+      shake();
+      setTimeout(() => {
+        inputs[0].value = "";
+        setStatus("Enter the 5-digit code.");
+      }, 550);
     }
   }
 
   function insertDigit(d){
     const field = inputs[activeIndex];
-    if(!field) return;
-    field.value = (field.value + d).slice(-2);
+    if(!field || locked) return;
+    if(field.value.length >= 7) return;
+    field.value += d;
     checkSolved();
-  }
-
-  function clearField(){
-    const field = inputs[activeIndex];
-    if(field) field.value = "";
-    setStatus("Tap a field, then enter digits.");
-  }
-
-  function clearAll(){
-    inputs.forEach(i => i.value = "");
-    setStatus("Tap a field, then enter digits.");
   }
 
   function goNext(){
     try { location.replace(NEXT_PAGE); }
     catch { location.href = NEXT_PAGE; }
+  }
+
+  async function postRelay1Once(){
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
+
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
+  }
+
+  async function triggerRelay1WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const ok = await postRelay1Once();
+        if(ok){
+          return;
+        }
+      }catch{}
+    }
   }
 
   const layout=[["7","8","9"],["4","5","6"],["1","2","3"],["","0",""]];
@@ -368,27 +362,17 @@
     });
   });
 
-  fields.forEach((field, idx) => {
-    field.onpointerdown = e => {
+  tiles.forEach((tile, idx) => {
+    tile.onpointerdown = e => {
       e.preventDefault();
       setActive(idx);
     };
   });
 
-  clearFieldBtn.onpointerdown = e => {
-    e.preventDefault();
-    clearField();
-  };
-
-  clearAllBtn.onpointerdown = e => {
-    e.preventDefault();
-    clearAll();
-  };
-
   setActive(0);
   document.addEventListener("dblclick", e => e.preventDefault());
 })();
 </script>
+</div>
 </body>
 </html>
-
