@@ -1,0 +1,430 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Access Terminal</title>
+
+  <style>
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --panel2:#1a2430;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+      width:100%;
+      height:100%;
+      overflow:visible;
+      background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
+    }
+
+    .app{
+      width:100%;
+      height:100%;
+      padding:18px;
+      box-sizing:border-box;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+
+    .brand .sub{
+      margin-top:2px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .pill{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      color:var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:relative;
+      display:grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap:14px;
+    }
+
+    .headerCard{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding:18px 20px;
+    }
+
+    .title{
+      margin:0;
+      font-size:30px;
+      letter-spacing:.3px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .tulipRow{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:16px;
+    }
+
+    .tulipSlot{
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      height:180px;
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .tulipSlot::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,.08);
+      pointer-events:none;
+    }
+
+    .tulip{
+      width:160px;
+      height:160px;
+      max-width:90%;
+      max-height:90%;
+      background:#e0b070;
+      -webkit-mask: url("tulip.png") center/contain no-repeat;
+      mask: url("tulip.png") center/contain no-repeat;
+      opacity:.95;
+    }
+
+    .tulip.pink{ background:#f2a6c9; }
+    .tulip.natural{ background:#ffffff; }
+    .tulip.purple{ background:#b38adf; }
+    .tulip.yellow{ background:#f1d85b; }
+
+    .itemsGrid{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap:12px;
+      align-content:start;
+    }
+
+    .item{
+      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 27px 10px;
+      text-align:center;
+      font-size:16px;
+      letter-spacing:.02em;
+      text-shadow: 0 2px 6px rgba(0,0,0,.75);
+      cursor:grab;
+      user-select:none;
+      touch-action:none;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      transition: border-color .12s, box-shadow .12s, transform .12s;
+    }
+
+    .item.dragging{
+      cursor:grabbing;
+      transform: scale(1.02);
+      box-shadow: 0 18px 26px rgba(0,0,0,.35);
+    }
+
+    .item.correct{
+      border-color: rgba(53,194,255,.75);
+      box-shadow: 0 0 0 3px rgba(53,194,255,.18), 0 12px 24px rgba(0,0,0,.28);
+    }
+
+    .item.wrong{
+      border-color: rgba(255,77,77,.85);
+      box-shadow: 0 0 0 3px rgba(255,77,77,.16), 0 12px 24px rgba(0,0,0,.28);
+    }
+
+    .status{
+      min-height:22px;
+      font-size:14px;
+      color:var(--muted);
+      padding-left:6px;
+    }
+    .status.ok{ color:#7cf5d8; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">&#x1F37D;&#xFE0F;</div>
+      <div>
+        <h1>Dining Room POS</h1>
+        <div class="sub">Employee Access Terminal</div>
+      </div>
+    </div>
+    <div class="pill">Touchscreen</div>
+  </div>
+
+  <div class="panel">
+    <div class="headerCard">
+      <p class="title">Tulips</p>
+      <p class="hint">Match the correct item to each tulip.</p>
+    </div>
+
+    <div class="tulipRow">
+      <div class="tulipSlot" data-color="pink" data-answer="Heart">
+        <div class="tulip pink"></div>
+      </div>
+      <div class="tulipSlot" data-color="natural" data-answer="Cupcake">
+        <div class="tulip natural"></div>
+      </div>
+      <div class="tulipSlot" data-color="purple" data-answer="Butterfly">
+        <div class="tulip purple"></div>
+      </div>
+      <div class="tulipSlot" data-color="yellow" data-answer="Flower">
+        <div class="tulip yellow"></div>
+      </div>
+    </div>
+
+    <div class="itemsGrid" id="itemsGrid"></div>
+
+    <div class="status" id="status">Drag items onto the tulips.</div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NEXT_PAGE = "love_birds.html";
+  const NAV_DELAY_MS = 50;
+
+  const ITEMS = [
+    "Star",
+    "Heart",
+    "Padlock",
+    "Crescent moon",
+    "Paw print",
+    "Cupcake",
+    "Cat silhouette",
+    "Butterfly",
+    "Tiny key",
+    "Flower"
+  ];
+
+  const slots = [...document.querySelectorAll(".tulipSlot")];
+  const grid = document.getElementById("itemsGrid");
+  const statusEl = document.getElementById("status");
+  let locked = false;
+
+  function goNext(){
+    try { location.replace(NEXT_PAGE); }
+    catch { location.href = NEXT_PAGE; }
+  }
+
+  function setStatus(text, ok){
+    statusEl.textContent = text;
+    statusEl.className = "status" + (ok ? " ok" : "");
+  }
+
+  function makeItem(label){
+    const item = document.createElement("div");
+    item.className = "item";
+    item.textContent = label;
+    item.dataset.label = label;
+    item.dataset.home = "grid";
+    return item;
+  }
+
+  function buildGrid(){
+    ITEMS.forEach(label => grid.appendChild(makeItem(label)));
+  }
+
+  function placeItemOnSlot(item, slot){
+    slot.appendChild(item);
+    item.style.position = "absolute";
+    item.style.left = "50%";
+    item.style.top = "50%";
+    item.style.transform = "translate(-50%, -50%)";
+  }
+
+  function returnToGrid(item){
+    item.style.position = "";
+    item.style.left = "";
+    item.style.top = "";
+    item.style.transform = "";
+    item.style.width = "";
+    item.style.height = "";
+    grid.appendChild(item);
+  }
+
+  function handleDrop(item, slot){
+    if(locked) return;
+    const answer = slot.dataset.answer;
+    const existing = slot.querySelector(".item");
+    if(existing && existing !== item){
+      if(existing.classList.contains("correct")){
+        returnToGrid(item);
+        return;
+      }
+      returnToGrid(existing);
+    }
+
+    if(item.dataset.label === answer){
+      item.classList.remove("wrong");
+      item.classList.add("correct");
+      placeItemOnSlot(item, slot);
+      setStatus("Correct match.", true);
+      const allCorrect = slots.every(s => {
+        const placed = s.querySelector(".item.correct");
+        return placed && placed.dataset.label === s.dataset.answer;
+      });
+      if(allCorrect){
+        locked = true;
+        setStatus("All matches found.", true);
+        setTimeout(goNext, NAV_DELAY_MS);
+        setTimeout(goNext, 300);
+      }
+    } else {
+      item.classList.remove("correct");
+      item.classList.add("wrong");
+      placeItemOnSlot(item, slot);
+      setStatus("That item does not belong there.");
+    }
+  }
+
+  function getSlotAtPoint(x, y){
+    const stack = document.elementsFromPoint(x, y);
+    if(!stack || !stack.length) return null;
+    for(const el of stack){
+      const slot = el.closest && el.closest(".tulipSlot");
+      if(slot) return slot;
+    }
+    return null;
+  }
+
+  function enableDrag(item){
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let origin = null;
+    let originRect = null;
+
+    item.onpointerdown = e => {
+      e.preventDefault();
+      if(item.classList.contains("correct")) return;
+      item.classList.remove("wrong");
+      dragging = true;
+      item.setPointerCapture(e.pointerId);
+      startX = e.clientX;
+      startY = e.clientY;
+      origin = item.parentElement;
+      originRect = item.getBoundingClientRect();
+      item.classList.add("dragging");
+      item.style.position = "fixed";
+      item.style.left = originRect.left + "px";
+      item.style.top = originRect.top + "px";
+      item.style.width = originRect.width + "px";
+      item.style.height = originRect.height + "px";
+      item.style.zIndex = "50";
+    };
+
+    item.onpointermove = e => {
+      if(!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      item.style.transform = `translate(${dx}px, ${dy}px)`;
+    };
+
+    item.onpointerup = e => {
+      if(!dragging) return;
+      dragging = false;
+      item.classList.remove("dragging");
+      item.releasePointerCapture(e.pointerId);
+
+      const slot = getSlotAtPoint(e.clientX, e.clientY);
+      item.style.position = "";
+      item.style.left = "";
+      item.style.top = "";
+      item.style.width = "";
+      item.style.height = "";
+      item.style.zIndex = "";
+      item.style.transform = "";
+
+      if(slot){
+        handleDrop(item, slot);
+      } else {
+        returnToGrid(item);
+      }
+    };
+  }
+
+  buildGrid();
+  [...document.querySelectorAll(".item")].forEach(enableDrag);
+})();
+</script>
+</body>
+</html>
+

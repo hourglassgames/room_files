@@ -1,0 +1,429 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Access Terminal</title>
+
+  <style>
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --panel2:#1a2430;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    html, body{
+      margin:0;
+      padding:0;
+      width:100%;
+      height:100%;
+      overflow:visible;
+      background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
+    }
+
+    .app{
+      width:100%;
+      height:100%;
+      padding:18px;
+      box-sizing:border-box;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+
+    .brand .sub{
+      margin-top:2px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .pill{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      color:var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:relative;
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+      gap:14px;
+    }
+
+    .headerCard{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding:18px 20px;
+    }
+
+    .title{
+      margin:0;
+      font-size:30px;
+      letter-spacing:.3px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .equationWrap{
+      display:grid;
+      place-items:center;
+    }
+
+    .equationBox{
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      padding: 29px 36px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+      display:flex;
+      align-items:center;
+      gap:16px;
+      font-size:36px;
+      letter-spacing:.08em;
+    }
+
+    .op{
+      color:var(--muted);
+      font-weight:600;
+      font-size:42px;
+    }
+
+    .shapeBtn{
+      width:112px;
+      height:132px;
+      border-radius:18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 100%);
+      color: var(--text);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      cursor:pointer;
+      touch-action: manipulation;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .shapeBtn:active{ transform: translateY(1px); }
+
+    .digit{
+      font-size:39px;
+      letter-spacing:.02em;
+      position:relative;
+      z-index:2;
+    }
+
+    .shapeIcon{
+      width:70px;
+      height:70px;
+      position:absolute;
+      inset:0;
+      margin:auto;
+      opacity:.9;
+      z-index:1;
+    }
+
+    .shapeIcon.square{
+      border:3px solid rgba(255,255,255,.7);
+      border-radius:12px;
+      background: #c8a36a;
+    }
+
+    .shapeIcon.circle{
+      border:3px solid rgba(255,255,255,.7);
+      border-radius:999px;
+      background: #c8a36a;
+    }
+
+    .heartIcon{
+      position:absolute;
+      inset:0;
+      margin:auto;
+      width:98px;
+      height:98px;
+      background:#c8a36a;
+      opacity:.9;
+      z-index:1;
+      -webkit-mask: url("heart.png") center/contain no-repeat;
+      mask: url("heart.png") center/contain no-repeat;
+    }
+
+    .heartBorder{
+      position:absolute;
+      inset:0;
+      margin:auto;
+      width:102px;
+      height:102px;
+      background: rgba(255,255,255,.7);
+      opacity:.9;
+      z-index:0;
+      -webkit-mask: url("heart.png") center/contain no-repeat;
+      mask: url("heart.png") center/contain no-repeat;
+      transform: scale(1.03);
+    }
+
+    .status{
+      min-height:22px;
+      font-size:14px;
+      color:var(--muted);
+      padding-left:6px;
+    }
+    .status.ok{ color:#7cf5d8; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">&#x1F37D;&#xFE0F;</div>
+      <div>
+        <h1>Dining Room POS</h1>
+        <div class="sub">Employee Access Terminal</div>
+      </div>
+    </div>
+    <div class="pill">Touchscreen</div>
+  </div>
+
+  <div class="panel">
+    <div class="headerCard">
+      <p class="title">Chocolates</p>
+      <p class="hint">A sweet little math challenge</p>
+    </div>
+
+    <div class="equationWrap">
+      <div class="equationBox" aria-label="Equation">
+        <span>8</span>
+        <span class="op">&divide;</span>
+        <button class="shapeBtn" data-shape="square" data-key="sq1" type="button">
+          <span class="digit">4</span>
+          <span class="shapeIcon square"></span>
+        </button>
+        <span class="op">+</span>
+        <button class="shapeBtn" data-shape="heart" data-key="h1" type="button">
+          <span class="digit">1</span>
+          <span class="heartBorder" aria-hidden="true"></span>
+          <span class="heartIcon" aria-hidden="true"></span>
+        </button>
+        <button class="shapeBtn" data-shape="circle" data-key="c1" type="button">
+          <span class="digit">3</span>
+          <span class="shapeIcon circle"></span>
+        </button>
+        <button class="shapeBtn" data-shape="heart" data-key="h2" type="button">
+          <span class="digit">1</span>
+          <span class="heartBorder" aria-hidden="true"></span>
+          <span class="heartIcon" aria-hidden="true"></span>
+        </button>
+        <span class="op">-</span>
+        <button class="shapeBtn" data-shape="circle" data-key="c2" type="button">
+          <span class="digit">3</span>
+          <span class="shapeIcon circle"></span>
+        </button>
+        <span class="op">+</span>
+        <button class="shapeBtn" data-shape="square" data-key="sq2" type="button">
+          <span class="digit">4</span>
+          <span class="shapeIcon square"></span>
+        </button>
+        <span class="op">=</span>
+        <span>1</span>
+        <button class="shapeBtn" data-shape="heart" data-key="h3" type="button">
+          <span class="digit">1</span>
+          <span class="heartBorder" aria-hidden="true"></span>
+          <span class="heartIcon" aria-hidden="true"></span>
+        </button>
+        <button class="shapeBtn" data-shape="square" data-key="sq3" type="button">
+          <span class="digit">4</span>
+          <span class="shapeIcon square"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="status" id="status">Ready.</div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NEXT_PAGE = "tulips.html";
+  const NAV_DELAY_MS = 50;
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/5";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
+
+  const SQUARE = [4,7,8];
+  const CIRCLE = [3,6];
+  const HEART = [1,3,5];
+
+  const buttons = [...document.querySelectorAll(".shapeBtn")];
+  const statusEl = document.getElementById("status");
+  let locked = false;
+
+  function getList(shape){
+    if(shape === "square") return SQUARE;
+    if(shape === "circle") return CIRCLE;
+    return HEART;
+  }
+
+  function getDigit(btn){
+    return parseInt(btn.querySelector(".digit").textContent, 10);
+  }
+
+  function setDigit(btn, value){
+    btn.querySelector(".digit").textContent = String(value);
+  }
+
+  function cycle(btn){
+    if(locked) return;
+    const shape = btn.dataset.shape;
+    const list = getList(shape);
+    const current = getDigit(btn);
+    const idx = list.indexOf(current);
+    const next = list[(idx + 1) % list.length];
+    setDigit(btn, next);
+    checkSolved();
+  }
+
+  function readByKey(key){
+    const btn = buttons.find(b => b.dataset.key === key);
+    return getDigit(btn);
+  }
+
+  function checkSolved(){
+    if(locked) return;
+    const sq1 = readByKey("sq1");
+    const h1 = readByKey("h1");
+    const c1 = readByKey("c1");
+    const h2 = readByKey("h2");
+    const c2 = readByKey("c2");
+    const sq2 = readByKey("sq2");
+    const h3 = readByKey("h3");
+    const sq3 = readByKey("sq3");
+
+    const left = (8 / sq1) + (h1 * 100 + c1 * 10 + h2) - c2 + sq2;
+    const right = 100 + (h3 * 10) + sq3;
+
+    if(left === right && left === 138){
+      locked = true;
+      statusEl.textContent = "Correct equation...";
+      statusEl.classList.add("ok");
+      triggerRelay5WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
+    } else {
+      statusEl.textContent = "Keep aligning the digits.";
+    }
+  }
+
+  function goNext(){
+    try { location.replace(NEXT_PAGE); }
+    catch { location.href = NEXT_PAGE; }
+  }
+
+  async function postRelay5Once(){
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
+
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
+  }
+
+  async function triggerRelay5WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const ok = await postRelay5Once();
+        if(ok){
+          return;
+        }
+      }catch{}
+    }
+  }
+
+  buttons.forEach(btn => {
+    btn.onpointerdown = e => {
+      e.preventDefault();
+      cycle(btn);
+    };
+  });
+
+  checkSolved();
+  document.addEventListener("dblclick", e => e.preventDefault());
+})();
+</script>
+</body>
+</html>
+

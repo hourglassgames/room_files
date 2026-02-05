@@ -5,66 +5,360 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plates</title>
   <style>
-    :root {
-      --bg: #0e141b;
-      --panel: #141c25;
-      --border: #2a3a4a;
-      --text: #e8f0ff;
-      --muted: #9fb2c8;
-      --accent: #22d3a6;
+    :root{
+      --bg:#0e141b;
+      --panel:#141c25;
+      --panel2:#1a2430;
+      --border:#2a3a4a;
+      --text:#e8f0ff;
+      --muted:#9fb2c8;
+      --accent:#22d3a6;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
+      --radius2: 14px;
       --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: var(--font);
+    html, body{
+      margin:0;
+      padding:0;
+      width:100%;
+      height:100%;
+      overflow:visible;
       background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
       color: var(--text);
-      display: grid;
-      place-items: center;
+      font-family: var(--font);
+      user-select:none;
+      touch-action: manipulation;
     }
 
-    .panel {
-      width: min(90vw, 520px);
-      padding: 28px;
+    .app{
+      width:100%;
+      height:100%;
+      padding:18px;
+      box-sizing:border-box;
+      display:grid;
+      grid-template-rows: 84px 1fr;
+      gap:14px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, #182433 0%, #121a24 100%);
-      text-align: center;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: 30px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    p {
-      margin: 0 0 22px;
+    .logo{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+      letter-spacing:.08em;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+
+    .brand .sub{
+      margin-top:2px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .pill{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size:13px;
+      color:var(--muted);
+      white-space: nowrap;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      position:relative;
+      display:grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap:14px;
+    }
+
+    .headerCard{
+      background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius2);
+      padding:18px 20px;
+    }
+
+    .title{
+      margin:0;
+      font-size:30px;
+      letter-spacing:.3px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .field{
+      background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      padding: 14px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .label{
+      font-size:13px;
       color: var(--muted);
-      font-size: 15px;
+      letter-spacing:.3px;
     }
 
-    .button {
-      display: inline-block;
-      padding: 12px 18px;
+    .wordInput{
+      width:25vw;
+      max-width: 320px;
+      min-width: 180px;
+      height:56px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: linear-gradient(180deg, rgba(34, 211, 166, 0.24) 0%, rgba(34, 211, 166, 0.12) 100%);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.28);
       color: var(--text);
-      text-decoration: none;
-      font-weight: 600;
+      font-size: 22px;
+      padding: 0 14px;
+      box-sizing:border-box;
+      outline:none;
+      caret-color: transparent;
+      letter-spacing:.08em;
+      text-align:center;
+      text-transform:uppercase;
+      align-self:center;
     }
+
+    .status{
+      min-height:22px;
+      font-size:14px;
+      color:var(--muted);
+      padding-left:6px;
+    }
+    .status.ok{ color:#7cf5d8; }
+    .status.err{ color:#ff8b8b; }
+
+    .keyboardArea{
+      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px 14px;
+      display:grid;
+      grid-template-rows: 1fr auto;
+      gap:10px;
+    }
+
+    .keys{
+      display:grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap:10px;
+      height: 220px;
+      padding: 4px;
+    }
+
+    .row{
+      display:grid;
+      gap:12px;
+    }
+
+    .key{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+      color: var(--text);
+      font-size: 22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      touch-action: manipulation;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .key:active{ transform: translateY(1px); }
+
+    .actionRow{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:10px;
+    }
+
+    .actionBtn{
+      height:60px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.03) 100%);
+      color: var(--text);
+      font-size: 18px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+    .actionBtn:active{ transform: translateY(1px); }
   </style>
 </head>
 <body>
-  <main class="panel">
-    <h1>Plates</h1>
-    <p>Placeholder step.</p>
-    <a class="button" href="entree1.html">Continue</a>
-  </main>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">&#x1F37D;&#xFE0F;</div>
+      <div>
+        <h1>Dining Room POS</h1>
+        <div class="sub">Employee Access Terminal</div>
+      </div>
+    </div>
+    <div class="pill">Touchscreen</div>
+  </div>
+
+  <div class="panel">
+    <div class="headerCard">
+      <p class="title">Plates</p>
+      <p class="hint">Enter the silver plated message.</p>
+    </div>
+
+    <div class="field">
+      <input id="codeInput" class="wordInput" type="text" inputmode="none" readonly />
+    </div>
+
+    <div class="status" id="status">Ready.</div>
+
+    <div class="keyboardArea">
+      <div class="keys">
+        <div class="row" id="r1"></div>
+        <div class="row" id="r2"></div>
+        <div class="row" id="r3"></div>
+      </div>
+      <div class="actionRow">
+        <button class="actionBtn" id="backspaceBtn" type="button">Backspace</button>
+        <button class="actionBtn" id="clearBtn" type="button">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NEXT_PAGE = "entree1.html";
+  const NAV_DELAY_MS = 50;
+  const CODE = "INDULGE";
+
+  const inputEl = document.getElementById("codeInput");
+  const statusEl = document.getElementById("status");
+  const rows = ["r1","r2","r3"].map(id => document.getElementById(id));
+  const backspaceBtn = document.getElementById("backspaceBtn");
+  const clearBtn = document.getElementById("clearBtn");
+  let locked = false;
+
+  function setStatus(t, k=""){
+    statusEl.textContent = t;
+    statusEl.className = "status" + (k ? " " + k : "");
+  }
+
+  function normalize(value){
+    return value.toUpperCase();
+  }
+
+  function goNext(){
+    try { location.replace(NEXT_PAGE); }
+    catch { location.href = NEXT_PAGE; }
+  }
+
+  function checkSolved(){
+    if(locked) return;
+    const value = normalize(inputEl.value);
+    if(value !== CODE) return;
+    locked = true;
+    setStatus("Correct code...", "ok");
+    setTimeout(goNext, NAV_DELAY_MS);
+    setTimeout(goNext, 300);
+  }
+
+  function insertLetter(letter){
+    if(locked) return;
+    inputEl.value += letter;
+    checkSolved();
+  }
+
+  function backspace(){
+    if(locked) return;
+    inputEl.value = inputEl.value.slice(0, -1);
+  }
+
+  function clearAll(){
+    if(locked) return;
+    inputEl.value = "";
+    setStatus("Ready.");
+  }
+
+  const layout = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L"],
+    ["Z","X","C","V","B","N","M"]
+  ];
+
+  layout.forEach((rowKeys, i) => {
+    const row = rows[i];
+    row.style.gridTemplateColumns = `repeat(${rowKeys.length}, 1fr)`;
+    row.innerHTML = "";
+    rowKeys.forEach(letter => {
+      const b = document.createElement("button");
+      b.className = "key";
+      b.type = "button";
+      b.textContent = letter;
+      b.onpointerdown = e => { e.preventDefault(); insertLetter(letter); };
+      row.appendChild(b);
+    });
+  });
+
+  backspaceBtn.onpointerdown = e => {
+    e.preventDefault();
+    backspace();
+  };
+
+  clearBtn.onpointerdown = e => {
+    e.preventDefault();
+    clearAll();
+  };
+
+  document.addEventListener("dblclick", e => e.preventDefault());
+})();
+</script>
 </body>
 </html>
+
+

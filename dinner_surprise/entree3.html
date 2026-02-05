@@ -146,25 +146,30 @@
   }
 
   async function postRelay3Once(){
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), RELAY_TIMEOUT_MS);
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
 
-    try{
-      return await fetch(RELAY_ENDPOINT, {
-        method: "POST",
-        signal: controller.signal,
-        cache: "no-store"
-      });
-    } finally {
-      clearTimeout(timeoutId);
-    }
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
   }
 
   async function triggerRelay3WithRetry(){
     for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
       try{
-        const response = await postRelay3Once();
-        if(response && response.status === 200){
+        const ok = await postRelay3Once();
+        if(ok){
           return;
         }
       }catch{}

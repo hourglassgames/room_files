@@ -229,17 +229,21 @@
 <script>
 (() => {
   const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
-  const NEXT_PAGE = "napkin_rings.html";
+  const NEXT_PAGE = "chocolates.html";
   const NAV_DELAY_MS = 50;
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/11";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
 
-  const CODE = ["N","NE","E","SE"];
+  const CODE = ["NW","W","E","SW"];
 
   const POINTS = ["N","NE","E","SE","S","SW","W","NW"];
   const buttons = [...Array(4)].map((_,i)=>document.getElementById("b"+i));
   const stateIdx = [0,0,0,0];
   const statusEl = document.getElementById("status");
   let locked = false;
-  const ROLES = ["Father","Mother","Daughter","Son"];
+  const ROLES = ["Man","Woman","Teenager","Boy"];
 
   function render(btn, label, role){
     btn.innerHTML = "";
@@ -278,6 +282,37 @@
     }
   }
 
+  async function postRelay11Once(){
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
+
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
+  }
+
+  async function triggerRelay11WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const ok = await postRelay11Once();
+        if(ok){
+          return;
+        }
+      }catch{}
+    }
+  }
+
   function advance(i){
     if(locked) return;
 
@@ -297,8 +332,7 @@
         ts: new Date().toISOString()
       });
 
-      setTimeout(goNext, NAV_DELAY_MS);
-      setTimeout(goNext, 300);
+      triggerRelay11WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
     }
   }
 

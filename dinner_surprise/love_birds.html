@@ -69,8 +69,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:14px;\r\n      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
-      letter-spacing:.08em;
+      font-size:24px;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
     }
 
     .brand h1{
@@ -95,13 +95,23 @@
       white-space: nowrap;
     }
 
+    .content{
+      height:100%;
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+      gap:14px;
+    }
+
     .panel{
       background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding:18px;
-      position:relative;
+      box-sizing:border-box;
+    }
+
+    .left{
       display:grid;
       grid-template-rows: auto 1fr auto;
       gap:14px;
@@ -111,142 +121,100 @@
       background: linear-gradient(180deg, rgba(34,211,166,.14) 0%, rgba(255,255,255,.03) 70%);
       border: 1px solid rgba(255,255,255,.08);
       border-radius: var(--radius2);
-      padding:18px 20px;
+      padding: 18px;
     }
 
-    .title{
-      margin:0;
-      font-size:30px;
-      letter-spacing:.3px;
-    }
+    .title{ margin:0; font-size:30px; letter-spacing:.3px; }
+    .hint{ margin-top:10px; font-size:14px; color:var(--muted); }
 
-    .hint{
-      margin-top:10px;
-      font-size:14px;
-      color:var(--muted);
-    }
-
-    .cardsGrid{
+    .cards{
       display:grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap:12px;
-      align-items:stretch;
     }
 
-    .fontCard{
+    .card{
       background: linear-gradient(180deg, var(--panel2) 0%, #131c26 100%);
       border: 1px solid rgba(255,255,255,.10);
       border-radius: var(--radius2);
-      padding: 12px 14px;
+      padding: 14px;
       display:flex;
       flex-direction:column;
       gap:10px;
       min-height:140px;
-      align-items:stretch;
+      align-items:center;
       justify-content:center;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
-      transition: border-color .12s, box-shadow .12s;
     }
 
-    .fontCard.active{
-      border-color: rgba(53,194,255,.65);
-      box-shadow: 0 0 0 3px rgba(53,194,255,.12), inset 0 0 0 1px rgba(0,0,0,.2);
+    .card.active{
+      border-color: rgba(53,194,255,.70);
+      box-shadow: 0 0 0 3px rgba(53,194,255,.12);
     }
 
-    .fontCard.ok{
+    .card.ok{
       border-color: rgba(53,194,255,.70);
       background: linear-gradient(180deg, rgba(53,194,255,.22) 0%, rgba(255,255,255,.02) 100%);
       box-shadow: 0 0 0 4px rgba(53,194,255,.14), inset 0 0 0 1px rgba(0,0,0,.2);
     }
 
-    .fontLabel{
-      font-size:18px;
-      letter-spacing:.08em;
+    .label{
+      font-size:28px;
+      letter-spacing:.14em;
       text-transform:uppercase;
-      color:var(--text);
+      color:var(--muted);
       text-align:center;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:28px;
-      line-height:1;
     }
 
-    .fontLabel.block{
-      font-family: "Impact", "Haettenschweiler", "Arial Black", sans-serif;
-      letter-spacing:.16em;
-    }
-
-    .fontLabel.script{
-      font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", cursive;
-      text-transform:none;
-      letter-spacing:.02em;
-      font-size:22px;
-      height:30px;
-    }
-
-    .fontLabel.serif{
-      font-family: "Georgia", "Times New Roman", serif;
-      text-transform:none;
-      letter-spacing:.04em;
-    }
-
-    .fontLabel.mono{
-      font-family: "Consolas", "Courier New", monospace;
-      text-transform:none;
-      letter-spacing:.12em;
-    }
-
-    .wordInput{
-      width:100%;
-      height:52px;
+    .digitInput{
+      width:50%;
+      height:64px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.28);
       color: var(--text);
-      font-size: 22px;
-      padding: 0 14px;
+      font-size: 32px;
+      padding: 0 16px;
       box-sizing:border-box;
       outline:none;
       caret-color: transparent;
-      letter-spacing:.04em;
       text-align:center;
+      align-self:center;
     }
 
-    .wordInput::placeholder{
-      color: rgba(159,178,200,.7);
+    .status{
+      min-height:22px;
+      font-size:14px;
+      color:var(--muted);
+      padding-left:4px;
     }
+    .status.ok{ color:#7cf5d8; }
 
-    .keyboardArea{
-      background: linear-gradient(180deg, var(--panel) 0%, #101720 100%);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 12px 14px 14px;
-      display:grid;
-      grid-template-rows: 1fr auto;
-      gap:10px;
+    .right{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
     }
 
     .keys{
       display:grid;
-      grid-template-rows: repeat(3, 1fr);
-      gap:10px;
-      height: 220px;
-      padding: 4px;
+      grid-template-rows: repeat(4, 1fr);
+      gap:12px;
+      height: 100%;
+      padding: 10px;
     }
 
     .row{
       display:grid;
+      grid-template-columns: repeat(3, 1fr);
       gap:12px;
     }
 
     .key{
-      border-radius: 16px;
+      border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
       color: var(--text);
-      font-size: 22px;
+      font-size: 38px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -254,11 +222,16 @@
       touch-action: manipulation;
       box-shadow: 0 10px 22px rgba(0,0,0,.22);
     }
-
     .key:active{ transform: translateY(1px); }
 
-    .clearBtn{
-      height:60px;
+    .actions{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .actionBtn{
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.03) 100%);
@@ -267,19 +240,12 @@
       letter-spacing:.08em;
       text-transform:uppercase;
       cursor:pointer;
+      height:60px;
       box-shadow: 0 10px 22px rgba(0,0,0,.22);
     }
-
-    .clearBtn:active{ transform: translateY(1px); }
-
-    .clearRow{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:10px;
-    }
+    .actionBtn:active{ transform: translateY(1px); }
   </style>
 </head>
-
 <body>
 <div class="app">
   <div class="topbar">
@@ -293,40 +259,45 @@
     <div class="pill">Touchscreen</div>
   </div>
 
-  <div class="panel">
-    <div class="headerCard">
-      <p class="title">Napkin Rings</p>
-      <p class="hint">Find the words in each font and enter them below.</p>
+  <div class="content">
+    <div class="panel left">
+      <div class="headerCard">
+        <p class="title">Love Birds</p>
+        <p class="hint">Enter the four single-digit codes.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card" data-index="0">
+          <div class="label">Striped</div>
+          <input class="digitInput" type="text" inputmode="none" readonly />
+        </div>
+        <div class="card" data-index="1">
+          <div class="label">Stars</div>
+          <input class="digitInput" type="text" inputmode="none" readonly />
+        </div>
+        <div class="card" data-index="2">
+          <div class="label">Diamonds</div>
+          <input class="digitInput" type="text" inputmode="none" readonly />
+        </div>
+        <div class="card" data-index="3">
+          <div class="label">Purple Solid</div>
+          <input class="digitInput" type="text" inputmode="none" readonly />
+        </div>
+      </div>
+
+      <div class="status" id="status">Tap a field, then enter a digit.</div>
     </div>
 
-    <div class="cardsGrid">
-        <div class="fontCard" data-index="0">
-          <div class="fontLabel block">Block</div>
-          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
-        </div>
-        <div class="fontCard" data-index="1">
-          <div class="fontLabel script">Script</div>
-          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
-        </div>
-        <div class="fontCard" data-index="2">
-          <div class="fontLabel serif">Serif</div>
-          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
-        </div>
-        <div class="fontCard" data-index="3">
-          <div class="fontLabel mono">Monospace</div>
-          <input class="wordInput" type="text" placeholder="Tap to enter" inputmode="none" readonly />
-        </div>
-    </div>
-
-    <div class="keyboardArea">
+    <div class="panel right">
       <div class="keys">
         <div class="row" id="r1"></div>
         <div class="row" id="r2"></div>
         <div class="row" id="r3"></div>
+        <div class="row" id="r4"></div>
       </div>
-      <div class="clearRow">
-        <button class="clearBtn" id="clearFieldBtn" type="button">Clear Field</button>
-        <button class="clearBtn" id="clearAllBtn" type="button">Clear All</button>
+      <div class="actions">
+        <button class="actionBtn" id="clearFieldBtn" type="button">Clear Field</button>
+        <button class="actionBtn" id="clearAllBtn" type="button">Clear All</button>
       </div>
     </div>
   </div>
@@ -334,110 +305,108 @@
 
 <script>
 (() => {
-  const NODE_RED_URL = "http://192.168.1.50:1880/escape/event";
-  const NEXT_PAGE = "points_of_view.html";
+  const NEXT_PAGE = "wine_bottles.html";
   const NAV_DELAY_MS = 50;
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/2";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
 
-  const ANSWERS = ["CHARM","YEARNING","DESIRE","TENDERNESS"];
-  const cards = [...document.querySelectorAll(".fontCard")];
-  const inputs = [...document.querySelectorAll(".wordInput")];
-  const rows = ["r1","r2","r3"].map(id => document.getElementById(id));
+  const ANSWERS = ["7","5","7","2"];
+  const cards = [...document.querySelectorAll(".card")];
+  const inputs = [...document.querySelectorAll(".digitInput")];
+  const rows = ["r1","r2","r3","r4"].map(id => document.getElementById(id));
   const clearFieldBtn = document.getElementById("clearFieldBtn");
   const clearAllBtn = document.getElementById("clearAllBtn");
+  const statusEl = document.getElementById("status");
   let activeIndex = 0;
-  let locked = false;
 
   function setActive(idx){
     activeIndex = idx;
     cards.forEach((c,i)=>c.classList.toggle("active", i===idx));
   }
 
-  function normalize(value){
-    return value.toUpperCase();
-  }
-
-  function updateCardState(idx){
-    const value = normalize(inputs[idx].value);
-    const isCorrect = value === ANSWERS[idx];
-    cards[idx].classList.toggle("ok", isCorrect);
-  }
-
-  function updateAllStates(){
-    cards.forEach((_,i)=>updateCardState(i));
-    checkSolved();
-  }
-
-  function triggerNR(payload){
-    try{
-      fetch(NODE_RED_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(payload),
-        keepalive: true
-      });
-    }catch{}
-  }
-
-  function goNext(){
-    try {
-      location.replace(NEXT_PAGE);
-    } catch {
-      location.href = NEXT_PAGE;
-    }
+  function setStatus(t, ok=false){
+    statusEl.textContent = t;
+    statusEl.className = "status" + (ok ? " ok" : "");
   }
 
   function checkSolved(){
-    if(locked) return;
-    const allCorrect = ANSWERS.every((a,i)=>normalize(inputs[i].value) === a);
-    if(!allCorrect) return;
-    locked = true;
-    triggerNR({
-      event:"napkin_rings_solved",
-      page:"napkin-rings",
-      code: ANSWERS,
-      ts: new Date().toISOString()
+    cards.forEach((card, i) => {
+      card.classList.toggle("ok", inputs[i].value === ANSWERS[i]);
     });
-    setTimeout(goNext, NAV_DELAY_MS);
-    setTimeout(goNext, 300);
+    const allCorrect = ANSWERS.every((a,i)=>inputs[i].value === a);
+    if(allCorrect){
+      setStatus("Correct code.", true);
+      triggerRelay2WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
+    }
   }
 
-  function insertLetter(letter){
+  function insertDigit(d){
     const field = inputs[activeIndex];
     if(!field) return;
-    field.value += letter;
-    updateCardState(activeIndex);
+    field.value = (field.value + d).slice(-2);
     checkSolved();
   }
 
   function clearField(){
     const field = inputs[activeIndex];
     if(field) field.value = "";
-    updateCardState(activeIndex);
+    setStatus("Tap a field, then enter a digit.");
   }
 
   function clearAll(){
     inputs.forEach(i => i.value = "");
-    updateAllStates();
+    setStatus("Tap a field, then enter a digit.");
   }
 
-  const layout = [
-    ["Q","W","E","R","T","Y","U","I","O","P"],
-    ["A","S","D","F","G","H","J","K","L"],
-    ["Z","X","C","V","B","N","M"]
-  ];
+  function goNext(){
+    try { location.replace(NEXT_PAGE); }
+    catch { location.href = NEXT_PAGE; }
+  }
 
-  layout.forEach((rowKeys, i) => {
-    const row = rows[i];
-    row.style.gridTemplateColumns = `repeat(${rowKeys.length}, 1fr)`;
-    row.innerHTML = "";
-    rowKeys.forEach(letter => {
-      const b = document.createElement("button");
-      b.className = "key";
-      b.type = "button";
-      b.textContent = letter;
-      b.onpointerdown = e => { e.preventDefault(); insertLetter(letter); };
-      row.appendChild(b);
+  async function postRelay2Once(){
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
+
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
+
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
+  }
+
+  async function triggerRelay2WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const ok = await postRelay2Once();
+        if(ok){
+          return;
+        }
+      }catch{}
+    }
+  }
+
+  const layout=[["7","8","9"],["4","5","6"],["1","2","3"],["","0",""]];
+  layout.forEach((row,i)=>{
+    rows[i].innerHTML="";
+    row.forEach(k=>{
+      if(!k){ rows[i].appendChild(document.createElement("div")); }
+      else{
+        const b=document.createElement("button");
+        b.className="key"; b.textContent=k;
+        b.onpointerdown=e=>{ e.preventDefault(); insertDigit(k); };
+        rows[i].appendChild(b);
+      }
     });
   });
 
@@ -459,15 +428,9 @@
   };
 
   setActive(0);
-  updateAllStates();
   document.addEventListener("dblclick", e => e.preventDefault());
 })();
 </script>
 </body>
 </html>
-
-
-
-
-
 
