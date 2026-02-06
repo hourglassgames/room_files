@@ -310,10 +310,7 @@
 (() => {
   const NEXT_PAGE = "tulips.html";
   const NAV_DELAY_MS = 50;
-  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
-  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/5";
-  const RELAY_TIMEOUT_MS = 1000;
-  const RELAY_MAX_ATTEMPTS = 3;
+  const WS_URL = "ws://192.168.1.101:1880/ws/relay5";
 
   const SQUARE = [4,7,8];
   const CIRCLE = [3,6];
@@ -371,7 +368,8 @@
       locked = true;
       statusEl.textContent = "Correct equation...";
       statusEl.classList.add("ok");
-      triggerRelay5WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
+      sendWsTrigger();
+      setTimeout(goNext, NAV_DELAY_MS);
     } else {
       statusEl.textContent = "Keep aligning the digits.";
     }
@@ -382,36 +380,26 @@
     catch { location.href = NEXT_PAGE; }
   }
 
-  async function postRelay5Once(){
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", RELAY_ENDPOINT, true);
-      xhr.timeout = RELAY_TIMEOUT_MS;
+  function sendWsTrigger(){
+    try{
+      const ws = new WebSocket(WS_URL);
+      const timeoutId = setTimeout(() => {
+        try{ ws.close(); }catch{}
+      }, 1200);
 
-      xhr.onload = () => {
-        if(xhr.status === 200){
-          resolve(true);
-          return;
-        }
-        reject(new Error("Unexpected status: " + xhr.status));
-      };
+      ws.addEventListener("open", () => {
+        ws.send("trigger");
+        clearTimeout(timeoutId);
+        try{ ws.close(); }catch{}
+      });
 
-      xhr.onerror = () => reject(new Error("Network error"));
-      xhr.ontimeout = () => reject(new Error("Timeout"));
-      xhr.send();
-    });
+      ws.addEventListener("error", () => {
+        clearTimeout(timeoutId);
+        try{ ws.close(); }catch{}
+      });
+    }catch{}
   }
 
-  async function triggerRelay5WithRetry(){
-    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
-      try{
-        const ok = await postRelay5Once();
-        if(ok){
-          return;
-        }
-      }catch{}
-    }
-  }
 
   buttons.forEach(btn => {
     btn.onpointerdown = e => {
@@ -426,4 +414,3 @@
 </script>
 </body>
 </html>
-
