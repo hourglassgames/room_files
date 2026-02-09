@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Employee Access Terminal</title>
 
   <style>
@@ -25,12 +25,12 @@
       padding:0;
       width:100%;
       height:100%;
-      overflow:visible;
+      overflow:hidden;
       background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
       color: var(--text);
       font-family: var(--font);
       user-select:none;
-      touch-action: manipulation;
+      touch-action: manipulation;`r`n      overscroll-behavior: none;
     }
 
     .app{
@@ -109,6 +109,7 @@
       box-shadow: var(--shadow);
       padding:18px;
       box-sizing:border-box;
+      overflow:hidden;
     }
 
     .left{
@@ -129,7 +130,7 @@
 
     .stack{
       display:grid;
-      gap:10px;
+      gap:8px;
       align-content:start;
       justify-items:center;
       width:100%;
@@ -144,7 +145,7 @@
       align-items:center;
       justify-content:space-between;
       gap:16px;
-      min-height:66px;
+      min-height:60px;
       width:80%;
       justify-self:center;
     }
@@ -209,7 +210,7 @@
       align-items:center;
       justify-content:center;
       cursor:pointer;
-      touch-action: manipulation;
+      touch-action: manipulation;`r`n      overscroll-behavior: none;
       box-shadow: 0 10px 22px rgba(0,0,0,.22);
     }
     .key:active{ transform: translateY(1px); }
@@ -389,6 +390,29 @@
   document.addEventListener("dblclick", e => e.preventDefault());
 })();
 </script>
+<script>
+(() => {
+  document.addEventListener("gesturestart", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gesturechange", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gestureend", e => e.preventDefault(), { passive: false });
+
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", e => {
+    const now = Date.now();
+    if(now - lastTouchEnd < 350){
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1){
+      e.preventDefault();
+    }
+  }, { passive: false });
+})();
+</script>
 </body>
 </html>
+
 

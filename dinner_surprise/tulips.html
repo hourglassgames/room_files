@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Employee Access Terminal</title>
 
   <style>
@@ -30,7 +30,7 @@
       color: var(--text);
       font-family: var(--font);
       user-select:none;
-      touch-action: manipulation;
+      touch-action: manipulation;`r`n      overscroll-behavior: none;
     }
 
     .app{
@@ -425,6 +425,30 @@
   [...document.querySelectorAll(".item")].forEach(enableDrag);
 })();
 </script>
+<script>
+(() => {
+  document.addEventListener("gesturestart", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gesturechange", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gestureend", e => e.preventDefault(), { passive: false });
+
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", e => {
+    const now = Date.now();
+    if(now - lastTouchEnd < 350){
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1){
+      e.preventDefault();
+    }
+  }, { passive: false });
+})();
+</script>
 </body>
 </html>
+
+
 

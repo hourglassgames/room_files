@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Employee Access Terminal</title>
 
   <style>
@@ -25,12 +25,12 @@
       padding:0;
       width:100%;
       height:100%;
-      overflow:visible;
+      overflow:hidden;
       background: radial-gradient(1200px 800px at 30% 20%, #162131 0%, var(--bg) 60%);
       color: var(--text);
       font-family: var(--font);
       user-select:none;
-      touch-action: manipulation;
+      touch-action: manipulation;`r`n      overscroll-behavior: none;
     }
 
     .app{
@@ -129,6 +129,7 @@
     .equationWrap{
       display:grid;
       place-items:center;
+      overflow:hidden;
     }
 
     .equationBox{
@@ -142,6 +143,9 @@
       gap:16px;
       font-size:36px;
       letter-spacing:.08em;
+      max-width:100%;
+      flex-wrap:wrap;
+      justify-content:center;
     }
 
     .op{
@@ -163,7 +167,7 @@
       justify-content:center;
       gap:6px;
       cursor:pointer;
-      touch-action: manipulation;
+      touch-action: manipulation;`r`n      overscroll-behavior: none;
       box-shadow: 0 10px 22px rgba(0,0,0,.22);
       position:relative;
       overflow:hidden;
@@ -227,6 +231,16 @@
       transform: scale(1.03);
     }
 
+    @media (max-width: 1200px){
+      .equationBox{ padding: 22px 24px; gap:12px; font-size:32px; }
+      .op{ font-size:36px; }
+      .shapeBtn{ width:96px; height:114px; }
+      .digit{ font-size:34px; }
+      .shapeIcon{ width:60px; height:60px; }
+      .heartIcon{ width:85px; height:85px; }
+      .heartBorder{ width:88px; height:88px; }
+    }
+
     .status{
       min-height:22px;
       font-size:14px;
@@ -252,7 +266,7 @@
   <div class="panel">
     <div class="headerCard">
       <p class="title">Chocolates</p>
-      <p class="hint">A sweeet little math challenge</p>
+      <p class="hint">A sweet little math challenge</p>
     </div>
 
     <div class="equationWrap">
@@ -310,7 +324,10 @@
 (() => {
   const NEXT_PAGE = "tulips.html";
   const NAV_DELAY_MS = 50;
-  const WS_URL = "ws://192.168.1.101:1880/ws/relay5";
+  const PARTY_ROOM_BASE_URL = "http://192.168.1.123";
+  const RELAY_ENDPOINT = PARTY_ROOM_BASE_URL + "/relay/5";
+  const RELAY_TIMEOUT_MS = 1000;
+  const RELAY_MAX_ATTEMPTS = 3;
 
   const SQUARE = [4,7,8];
   const CIRCLE = [3,6];
@@ -368,8 +385,7 @@
       locked = true;
       statusEl.textContent = "Correct equation...";
       statusEl.classList.add("ok");
-      sendWsTrigger();
-      setTimeout(goNext, NAV_DELAY_MS);
+      triggerRelay5WithRetry().finally(() => setTimeout(goNext, NAV_DELAY_MS));
     } else {
       statusEl.textContent = "Keep aligning the digits.";
     }
@@ -380,24 +396,35 @@
     catch { location.href = NEXT_PAGE; }
   }
 
-  function sendWsTrigger(){
-    try{
-      const ws = new WebSocket(WS_URL);
-      const timeoutId = setTimeout(() => {
-        try{ ws.close(); }catch{}
-      }, 1200);
+  async function postRelay5Once(){
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", RELAY_ENDPOINT, true);
+      xhr.timeout = RELAY_TIMEOUT_MS;
 
-      ws.addEventListener("open", () => {
-        ws.send("trigger");
-        clearTimeout(timeoutId);
-        try{ ws.close(); }catch{}
-      });
+      xhr.onload = () => {
+        if(xhr.status === 200){
+          resolve(true);
+          return;
+        }
+        reject(new Error("Unexpected status: " + xhr.status));
+      };
 
-      ws.addEventListener("error", () => {
-        clearTimeout(timeoutId);
-        try{ ws.close(); }catch{}
-      });
-    }catch{}
+      xhr.onerror = () => reject(new Error("Network error"));
+      xhr.ontimeout = () => reject(new Error("Timeout"));
+      xhr.send();
+    });
+  }
+
+  async function triggerRelay5WithRetry(){
+    for(let attempt = 1; attempt <= RELAY_MAX_ATTEMPTS; attempt++){
+      try{
+        const ok = await postRelay5Once();
+        if(ok){
+          return;
+        }
+      }catch{}
+    }
   }
 
 
@@ -412,5 +439,29 @@
   document.addEventListener("dblclick", e => e.preventDefault());
 })();
 </script>
+<script>
+(() => {
+  document.addEventListener("gesturestart", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gesturechange", e => e.preventDefault(), { passive: false });
+  document.addEventListener("gestureend", e => e.preventDefault(), { passive: false });
+
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", e => {
+    const now = Date.now();
+    if(now - lastTouchEnd < 350){
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1){
+      e.preventDefault();
+    }
+  }, { passive: false });
+})();
+</script>
 </body>
 </html>
+
+
